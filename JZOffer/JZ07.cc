@@ -64,3 +64,8 @@ public:
     return root;
   }
 };
+
+int main()
+{
+    return 0;
+}
