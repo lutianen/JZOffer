@@ -8,10 +8,13 @@
 
 
 #include <string>
-#include <set>
-
+#include <unordered_set>
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::endl;
+using std::unordered_set;
 using std::string;
-using std::set;
 
 
 class Solution {
@@ -21,7 +24,7 @@ public:
             return 0;
 
         int left = 0;
-        set<char> temp {s[left]};
+        unordered_set<char> temp{s[left]};
         int res = 1;
 
         for (int right = 1; right < s.size(); ++right) {
@@ -37,3 +40,11 @@ public:
     }
 };
 
+int main() {
+    Solution s;
+    string strs;
+    cout << "Please input string: " << endl;
+    cin >> strs;
+    int ret = s.lengthOfLongestSubstring(strs);
+    cout << " lengthOfLongestSubstring = " << ret << endl;
+}
