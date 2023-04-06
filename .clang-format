@@ -1,0 +1,10 @@
+BasedOnStyle: Google # BasedOnStyle: LLVM / Google / GNU
+IndentWidth: 4
+Language: Cpp
+DerivePointerAlignment: false
+PointerAlignment: Left
+AccessModifierOffset: -4
+FixNamespaceComments: true
+NamespaceIndentation: All
+AlwaysBreakTemplateDeclarations: true
+ColumnLimit: 120
