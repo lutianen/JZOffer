@@ -14,11 +14,8 @@
         5. 返回根节点
  */
 
-#include <stdio.h>
-
 #include <iostream>
 #include <vector>
-
 
 using std::cin;
 using std::vector;
