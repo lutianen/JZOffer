@@ -5,25 +5,23 @@
     说明： 题目保证链表中节点的值互不相同
           若使用 C 或 C++ 语言，你不需要 free 或 delete 被删除的节点
 
-    思路：双指针 - pre, cur
+    思路：双指针
  */
 
 #include <cstdio>
 
 //  Definition for singly-linked list.
 struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode(int x) : val(x), next(NULL) {}
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(NULL) {}
 };
 
 class Solution {
 public:
-    ListNode *deleteNode(ListNode *head, int val) {
+    ListNode* deleteNode(ListNode* head, int val) {
         if (head == nullptr) return head;
-
-        if (head->val == val)
-            return head->next;
+        if (head->val == val) return head->next;
 
         ListNode* pre = head;
         ListNode* cur = head->next;
