@@ -7,66 +7,70 @@
 
     链接：https://leetcode.cn/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof
 
-    思路：DFS
+    思路：DFS + visited[i][j]
  */
 
-
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 #include <string>
 #include <vector>
 
-
-using std::vector;
 using std::string;
+using std::vector;
 
 class Solution {
 public:
     int movingCount(int m, int n, int k) {
-        if (m < 0 || n < 0 || k < 0)
-            return -1;
-        
-        vector<vector<bool>> visited(m, vector<bool>(n, false)); 
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
         int cnt = 0;
-        // for (int i = 0; i < m; ++i) {
-        //     for (int j = 0; j < n; ++j) {
-        //         if(visited[i][j] == false)
-                    DFS(m, n, 0, 0, k, cnt, visited);
-            // }
-        // }
+
+        DFS(0, 0, k, cnt, visited);
 
         return cnt;
     }
 
-    void DFS(int m, int n, int i, int j, int target, int& cnt, vector<vector<bool>>& visited) {
-        if (i < 0 || i >= m || 
-            j < 0 || j >= n || 
-            helper(i, j) > target || visited[i][j])
-            return ;
-        
-        cnt++;
-        visited[i][j] = true;
+private:
+    int bitSum(int i) {
+        int s = 0;
+        while (i) {
+            s += (i % 10);
+            i /= 10;
+        }
 
-        DFS(m, n, i - 1, j, target, cnt, visited);
-        DFS(m, n, i + 1, j, target, cnt, visited);
-        DFS(m, n, i, j - 1, target, cnt, visited);
-        DFS(m, n, i, j + 1, target, cnt, visited);
+        return s;
+    }
+    int isValid(int i, int j, int k) { return (bitSum(i) + bitSum(j)) <= k; }
+
+    int isValid2(int i, int j, int k) {
+        // string iStr = std::to_string(i), jStr = std::to_string(j);
+
+        // int sum = 0;
+        // for (const auto c : iStr) sum += (c - '0');
+        // for (const auto c : jStr) sum += (c - '0');
+
+        // return sum <= k;
+
+        string bitStr = std::to_string(i) + std::to_string(j);
+        int sum = 0;
+        for (const auto c : bitStr) sum += (c - '0');
+        return sum <= k;
     }
 
-    int helper(int x, int y) {
-        string str = std::to_string(x) + std::to_string(y);
+    void DFS(int i, int j, int k, int& cnt, vector<vector<bool>>& visited) {
+        if (i < 0 || i >= visited.size() || j < 0 || j >= visited[i].size() || visited[i][j] || !isValid2(i, j, k))
+            return;
 
-        int sum = 0;
-        for (auto e : str)
-            sum += e - '0';
+        visited[i][j] = true;
+        cnt++;
 
-        return sum;
+        DFS(i + 1, j, k, cnt, visited);
+        DFS(i - 1, j, k, cnt, visited);
+        DFS(i, j - 1, k, cnt, visited);
+        DFS(i, j + 1, k, cnt, visited);
     }
 };
 
 int main() {
     Solution s;
-    std::cout << s.helper(12, 2) << std::endl;
     std::cout << s.movingCount(3, 2, 1) << std::endl;
 }
-
