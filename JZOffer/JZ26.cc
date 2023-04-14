@@ -6,22 +6,20 @@
     思路：先序遍历
  */
 
-
 #include <cstdio>
 
 /// Definition for a binary tree node.
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution {
 public:
-public:
     bool isSubStructure(TreeNode* A, TreeNode* B) {
-        if(A == nullptr || B == nullptr) return false;
+        if (A == nullptr || B == nullptr) return false;
 
         // B 若是 A 为根节点的子树，return true
         if (isSubTree(A, B)) return true;
@@ -37,21 +35,10 @@ private:
     // 也可以认为是 DFS
     bool isSubTree(TreeNode* A, TreeNode* B) {
         // 若 B 是子树，则 B 先迭代完（nullptr），这时即为子树
-        if(B == nullptr) return true;
+        if (B == nullptr) return true;
         // 若 A 迭代完，而 B 没有迭代完，这时不是子树
         if (A == nullptr) return false;
-        
-        // 如果当前节点值不相等，则不为子树
-        if (A->val != B->val) return false;
-
         // 当前节点相等的情况下，继续判断 A 和 B 的左右子树
-        return isSubTree(A->left, B->left) && isSubTree(A->right, B->right);
-    }
-
-    bool DFS(TreeNode* A, TreeNode* B) {
-        if (B == nullptr) return true;
-        if (A == nullptr) return false;
-
-        return A->val == B->val && DFS(A->left, B->left) && DFS(A->right, B->right);
+        return A->val == B->val && isSubTree(A->left, B->left) && isSubTree(A->right, B->right);
     }
 };
