@@ -6,7 +6,6 @@
  *      左指针寻找奇数，右指针寻找偶数，然后交换
  */
 
-
 #include <iostream>
 #include <vector>
 
@@ -14,28 +13,29 @@ using std::vector;
 
 class Solution {
 public:
+    // 双缓冲
     vector<int> exchange(vector<int>& nums) {
         vector<int> odd{};
         vector<int> even{};
 
-        for(int i = 0; i < nums.size(); ++i) {
+        for (int i = 0; i < nums.size(); ++i) {
             if (nums[i] & 1) {
                 odd.push_back(nums[i]);
-            } else even.push_back(nums[i]);
+            } else
+                even.push_back(nums[i]);
         }
 
-        vector<int> res {};
-        for(int i = 0; i < odd.size(); ++i) {
+        vector<int> res{};
+        for (int i = 0; i < odd.size(); ++i) {
             res.push_back(odd[i]);
         }
-        
-        for(int i = 0; i < even.size(); ++i) {
+
+        for (int i = 0; i < even.size(); ++i) {
             res.push_back(even[i]);
         }
 
         return res;
     }
-
 
     // 双指针 - 对撞指针
     // 左指针寻找奇数，右指针寻找偶数，然后交换
@@ -43,20 +43,19 @@ public:
         int left = 0;
         int right = nums.size() - 1;
 
-        while(left < right) {
+        while (left < right) {
             // 寻找左侧第一个偶数
-            while(left < right && (nums[left] & 1) == 1) {
+            while (left < right && (nums[left] & 1) == 1) {
                 left++;
             }
 
             // 寻找右侧第一个奇数
-            while(left < right && (nums[right] & 1) == 0) {
+            while (left < right && (nums[right] & 1) == 0) {
                 right--;
             }
 
             // 原地交换
-            if (left < right)
-                std::swap(nums[left++], nums[right--]);
+            if (left < right) std::swap(nums[left++], nums[right--]);
         }
 
         return nums;
@@ -71,6 +70,5 @@ int main() {
     //     std::cout << elemet << std::endl;
 
     vector<int> ret = s.exchange2(nums);
-    for(auto& element: ret)
-        std::cout << element << std::endl;
+    for (auto& element : ret) std::cout << element << std::endl;
 }
