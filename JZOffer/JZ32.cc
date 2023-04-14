@@ -8,39 +8,38 @@
 #include <queue>
 #include <vector>
 
-using std::vector;
 using std::queue;
+using std::vector;
 
 // Definition for a binary tree node.
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution {
 public:
-    vector<int> levelOrder(TreeNode* root) {
-        if (root == nullptr)
-            return {};
+    vector<int> levelOrder2(TreeNode* root) {
+        if (nullptr == root) return {};
 
-        queue<TreeNode*> helperQ({root});
-        TreeNode* curr = helperQ.front();
-        vector<int> result;
+        queue<TreeNode*> que{};
+        vector<int> ret{};
+        que.push(root);
 
-        while(!helperQ.empty()) {
-            curr = helperQ.front();
-            result.push_back(curr->val);
-            helperQ.pop();
-
-            if (curr->left != nullptr)
-                helperQ.push(curr->left);
-            if (curr->right != nullptr)
-                helperQ.push(curr->right);
+        while (!que.empty()) {
+            // 统计当前层节点的个数，通用性更高
+            int k = que.size();
+            for (int i = 0; i < k; ++i) {
+                TreeNode* cur = que.front();
+                que.pop();
+                ret.push_back(cur->val);
+                if (cur->left) que.push(cur->left);
+                if (cur->right) que.push(cur->right);
+            }
         }
 
-        return result;
+        return ret;
     }
 };
-
