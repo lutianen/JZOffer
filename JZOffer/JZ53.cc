@@ -15,12 +15,14 @@ public:
     int search(vector<int>& nums, int tar) {
         if (nums.empty()) return 0;
 
-        return binSeach(nums, tar) - binSeach(nums, tar - 1);
+        // return binSearch(nums, tar) - binSearch(nums, tar - 1);
+        return binSearch2(nums, tar) - binSearch2(nums, tar - 1);
     }
 
 private:
     // 二分查找变形：找到目标连续区间的最左侧下标
-    int binSeach(vector<int>& nums, int tar) {
+    //  时间复杂度 O(N)
+    int binSearch(vector<int>& nums, int tar) {
         int l = 0, r = nums.size() - 1;
         while (l <= r) {
             int m = l + (r - l) / 2;
@@ -37,11 +39,24 @@ private:
 
         return r;
     }
+
+    // 时间复杂度 O(logn)
+    int binSearch2(vector<int>& nums, int tar) {
+        int i = 0, j = nums.size() - 1;
+        while (i <= j) {
+            int m = (i + j) / 2;
+            if (nums[m] <= tar)
+                i = m + 1;
+            else
+                j = m - 1;
+        }
+        return i;
+    }
 };
 
 int main() {
     Solution s;
     vector<int> nums{1, 5, 5, 7, 7, 8, 10};
     // vector<int> nums{1};
-    std::cout << s.search(nums, 7) << std::endl;
+    std::cout << s.search(nums, 1) << std::endl;
 }
