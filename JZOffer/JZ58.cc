@@ -10,22 +10,20 @@
     - 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个
 
  * 思路：利用双指针，分别指向单词的头(left + 1)尾(right)，放入res
- * trim: 
+ * trim:
         str.erase(0, str.find_first_not_of(' '));
         str.erase(str.find_last_not_of(' '));
  */
 
-
-#include <string>
 #include <iostream>
+#include <string>
 
 using std::string;
 
 class Solution {
 public:
     string reverseWords(string s) {
-        if (s.empty())
-            return "";
+        if (s.empty()) return "";
 
         // 去除原始字符串头尾的空格
         trim(s);
@@ -47,11 +45,35 @@ public:
         return trim(res);
     }
 
+    // 双指针
+    string reverseWords2(string s) {
+        if (s.empty()) return s;
+
+        // 左右指针
+        int L = s.size() - 1, R = L;
+
+        string res;
+        while (L >= 0 && R >= 0) {
+            while (L >= 0 && s[L] == ' ') L--;
+            R = L;
+            while (L >= 0 && s[L] != ' ') L--;
+
+            // 源字符串最前侧的连续空格，将导致 R < 0
+            if (R < 0) break;
+
+            // 有效子串添加
+            res += s.substr(L + 1, R - L);
+            res.push_back(' ');
+        }
+
+        // 剔除最后一个无效的空格
+        return res.substr(0, res.size() - 1);
+    }
+
 private:
-    string trim(string &str) {
-        if (str.empty())
-            return "";
-        str.erase(0, (str.find_first_not_of(' ')));
+    string trim(string& str) {
+        if (str.empty()) return "";
+        str.erase(0, str.find_first_not_of(' '));
         str.erase(str.find_last_not_of(' ') + 1);
 
         return str;
@@ -60,6 +82,12 @@ private:
 
 int main() {
     Solution s;
-    string res = s.reverseWords("abc def g.");
+    string str; // "   hello world! Lux...   "
+    std::getline(std::cin, str);
+
+    string res = s.reverseWords2(str);
+    std::cout << res << std::endl;
+
+    res = s.reverseWords(str);
     std::cout << res << std::endl;
 }
