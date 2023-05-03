@@ -27,16 +27,16 @@ public:
             fast = fast->next;
         }
 
-        ListNode* dummpNode = new ListNode(-1, head);
-        ListNode* curr = dummpNode;
+        ListNode* dummyNode = new ListNode(-1, head);
+        ListNode* curr = dummyNode;
         while (fast != nullptr) {
             fast = fast->next;
             curr = curr->next;
         }
 
         curr->next = curr->next->next;
-        ListNode* ret = dummpNode->next;
-        delete dummpNode;
+        ListNode* ret = dummyNode->next;
+        delete dummyNode;
 
         return ret;
     }
