@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 
 using std::cin;
@@ -19,6 +20,28 @@ using std::unordered_set;
 
 class Solution {
 public:
+    // 滑动窗口：左闭右开区间 [left, right)
+    int lengthOfLongestSubstring2(string s) {
+        if (s.empty()) return 0;
+
+        int n = s.size(), res = INT_MIN;
+        std::unordered_map<char, int> umap;  // 词频统计
+
+        int left = 0, right = 0;
+        while (right < n) {
+            char cur = s[right++];
+            umap[cur]++;
+            while (umap[cur] > 1) {
+                char d = s[left++];
+                umap[d]--;
+            }
+
+            res = std::max(res, right - left);
+        }
+
+        return res;
+    }
+
     int lengthOfLongestSubstring(string s) {
         if (s.empty()) return 0;
 
@@ -41,5 +64,8 @@ int main() {
     string strs;
     cin >> strs;
     int ret = s.lengthOfLongestSubstring(strs);
+    cout << ret << endl;
+
+    ret = s.lengthOfLongestSubstring2(strs);
     cout << ret << endl;
 }
