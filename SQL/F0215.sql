@@ -1,0 +1,44 @@
+-- 查询出既学过 '001'课程，也学过 '003'课程的学生的 ID
+
+CREATE TABLE F0215 (
+    StuID INT,
+    CID VARCHAR(10),
+    Course INT
+);
+
+INSERT INTO F0215 VALUES 
+( 1, '001', 67),
+( 1, '002', 89),
+( 1, '003', 94),
+( 2, '001', 99),
+( 2, '002', 89),
+( 2, '004', 99),
+( 3, '001', 80),
+( 3, '002', 78),
+( 3, '003', 89);
+
+-- 思路一，使用自联结
+SELECT T1.StuID FROM
+( SELECT StuID FROM F0215 WHERE CID = '001') T1
+INNER JOIN 
+( SELECT StuID FROM F0215 WHERE CID = '003') T2
+ON T1.StuID = T2.StuID;
+
+
+-- 思路二，使用分组
+SELECT StuID 
+FROM F0215
+WHERE CID IN ('001', '003')
+GROUP BY StuID
+HAVING COUNT(StuID) > 1;
+
+
+-- 思路三，等价于思路二（思路二变体）
+SELECT StuID FROM
+(
+    SELECT StuID FROM F0215 WHERE CID = '001'
+    UNION ALL
+    SELECT StuID FROM F0215 WHERE CID = '003'
+) A
+GROUP BY StuID
+HAVING COUNT(StuID) > 1;
