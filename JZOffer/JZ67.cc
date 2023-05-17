@@ -26,7 +26,7 @@ public:
         bool sign = true;
 
         // 查找第一个非 ' ' 的位置
-        int l = 0;
+        size_t l = 0;
         while (l < str.size() && str[l] == ' ') l++;
 
         // 必须先判断 + -
@@ -41,7 +41,7 @@ public:
         // 组合结果
         int ans = 0;
         int border = INT_MAX / 10;
-        for (int i = l; i < str.size(); ++i) {
+        for (size_t i = l; i < str.size(); ++i) {
             if (!std::isdigit(str[i]))
                 break;
 
@@ -67,7 +67,7 @@ public:
         if (str.empty()) return 0;
 
         bool sign = true;
-        int cur = 0;
+        size_t cur = 0;
         while (str[cur] == ' ') cur++;
 
         if (str[cur] == '-') {
