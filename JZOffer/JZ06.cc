@@ -59,7 +59,7 @@ ListNode* createList(vector<int>& list) {
     ListNode* head = new ListNode(list[0]);
     ListNode* cur = head;
 
-    for (int i = 1; i < list.size(); i++) {
+    for (size_t i = 1; i < list.size(); i++) {
         cur->next = new ListNode(list[i]);
         cur = cur->next;
     }

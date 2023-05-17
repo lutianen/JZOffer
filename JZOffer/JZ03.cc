@@ -20,7 +20,8 @@ class Solution {
 public:
     /**
      * @brief 利用集合 set 的不可重复性
-     * 首先在 set 中寻找该数字是否已经存在，如不存在，则插入；否则，找到的数字一定是重复的数字
+     * 首先在 set
+     * 中寻找该数字是否已经存在，如不存在，则插入；否则，找到的数字一定是重复的数字
      * 空间复杂度 O(n)，时间复杂度 O(n)
      */
     int findRepeatNumber(vector<int>& nums) {
@@ -29,7 +30,7 @@ public:
         }
 
         set<int> s{};
-        for (int i = 0; i < nums.size(); ++i) {
+        for (size_t i = 0; i < nums.size(); ++i) {
             if (s.find(nums[i]) != s.end()) {
                 return nums[i];
             } else {
@@ -48,8 +49,9 @@ public:
      */
     int findRepeatNumber2(vector<int>& nums) {
         if (nums.size() < 2) return -1;
+        int n = nums.size();
 
-        for (int i = 0; i < nums.size();) {
+        for (int i = 0; i < n;) {
             if (nums[i] != i) {
                 if (nums[i] == nums[nums[i]]) {
                     return nums[i];
