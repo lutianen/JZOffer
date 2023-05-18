@@ -35,7 +35,7 @@ public:
             temp.push_back(s[i]);
 
         string res;
-        for (int i = n; i < s.size(); ++i)
+        for (size_t i = n; i < s.size(); ++i)
             res.push_back(s[i]);
         
         res.append(temp);
