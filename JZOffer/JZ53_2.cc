@@ -7,6 +7,7 @@
     思路：
         1. 保证数组不为空，且首元素为0，然后利用相邻两元素之间差值为1，找到缺失的数字
         2. 二分法
+        3. nums[i] == i
  */
 
 #include <iostream>
@@ -24,7 +25,7 @@ public:
         int pre = nums[0];
         if (pre != 0) return 0;
 
-        for (int i = 1; i < nums.size(); i++) {
+        for (size_t i = 1; i < nums.size(); i++) {
             if (nums[i] - pre != 1)
                 break;
             else
@@ -51,6 +52,20 @@ public:
         }
 
         return L;
+    }
+
+    // Solution 3
+    int missingNumber3(vector<int>& nums) {
+        // 假设缺失的数字是最后一个
+        int ret = nums.size();
+
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] != i) {
+                ret = i;
+                break;
+            }
+        }
+        return ret;
     }
 };
 
