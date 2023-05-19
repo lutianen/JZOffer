@@ -60,7 +60,7 @@ public:
         // d[i][j]，表示 s[i ... j] 是否为回文子串
         // d[i][j] = d[i - 1][j - 1] && s[i] == s[j] j - 1 >= 3
         // j - i < 3 ==>> d[i][j] = s[i] == s[j]
-        vector<vector<bool>> d(n, vector(n, false));
+        vector<vector<bool>> d(n, vector<bool>(n, false));
         for (int i = 0; i < n; i++) d[i][i] = true;
 
         int len = 0, beg = 0;
