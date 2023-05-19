@@ -8,6 +8,8 @@
          另外，正常情况下，不能出现重复数字
  */
 
+#include <limits.h>
+
 #include <algorithm>
 #include <climits>
 #include <iostream>
@@ -37,7 +39,7 @@ public:
         // if (maxV - minV >= 5 || (st.size() + zeroNum != 5)) return false;
         // return true;
 
-        return (maxV - minV < nums.size()) &&
+        return (static_cast<size_t>(maxV - minV) < nums.size()) &&
                (st.size() + zeroNum == nums.size());
     }
 
@@ -46,7 +48,8 @@ public:
     bool isStraight2(vector<int>& nums) {
         // 利用 set
         set<int> s;
-        for (int i = 0; i < nums.size(); ++i) {
+        int n = nums.size();
+        for (int i = 0; i < n; ++i) {
             if (nums[i] != 0) {
                 if (s.find(nums[i]) == s.end())
                     s.insert(nums[i]);

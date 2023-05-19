@@ -1,7 +1,7 @@
 /**
  * @file JZ07 重建二叉树
  * @brief 输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。
- * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+ *      假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
  *
     特性：
         前序：第一个元素永远是根节点 (root)
@@ -9,7 +9,7 @@
     算法思路：
         1. 通过前序确定根节点 (root)
         2. 将中序分割成 左分支(iLeft) 和 右分支(iRight)
-        3. 根据分割后的中序左分支(iLeft)的数量，将前序进行分割 -> (pLeft), (pRight)
+        3. 根据分割后的中序左分支(iLeft)的数量，将前序进行分割->(pLeft),(pRight)
         4. 设置左右节点（即递归）
         5. 返回根节点
  */
@@ -37,7 +37,7 @@ public:
         TreeNode* root = new TreeNode(preorder[0]);
 
         // 2. 在中序中寻找 root
-        int i;
+        size_t i;
         for (i = 0; i < inorder.size(); ++i) {
             if (preorder[0] == inorder[i]) {
                 break;
@@ -78,6 +78,7 @@ int main() {
 
     Solution so;
     TreeNode* root = so.buildTree(preorder, inorder);
+    (void)root;
 
     return 0;
 }

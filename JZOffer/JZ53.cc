@@ -32,7 +32,9 @@ private:
                 l = m + 1;
             else {
                 int j = m;
-                while (j < nums.size() && nums[j] == tar) j++;
+                // 最差的情况下，时间复杂度为 O(N)
+                while (static_cast<size_t>(j) < nums.size() && nums[j] == tar)
+                    j++;
                 return j - 1;
             }
         }

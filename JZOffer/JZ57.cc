@@ -7,21 +7,25 @@
         当两指针所指元素之和小于 target 时，left++；否则，right--，直至相等或两指针重合
  */
 
+#include <iostream>
 #include <vector>
 
+using std::cout;
+using std::endl;
 using std::vector;
 
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        if (nums.empty())
-            return {};
+        if (nums.empty()) return {};
 
         int left = 0, right = nums.size() - 1;
         vector<int> res;
         while (left < right) {
-            if (nums[left] + nums[right] < target) left++;
-            else if (nums[left] + nums[right] > target) right--;
+            if (nums[left] + nums[right] < target)
+                left++;
+            else if (nums[left] + nums[right] > target)
+                right--;
             else {
                 res.push_back(nums[left]);
                 res.push_back(nums[right]);
@@ -32,3 +36,13 @@ public:
         return res;
     }
 };
+
+int main(int argc, char* argv[]) {
+    vector<int> nums{2, 7, 11, 15};
+    int s = 9;
+    Solution so;
+    vector<int> ret = so.twoSum(nums, s);
+    for (const auto& num : ret) cout << num << " ";
+    cout << endl;
+    return 0;
+}

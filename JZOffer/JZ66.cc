@@ -18,34 +18,33 @@ public:
         if (a.empty())
             return a;
 
+        int n = a.size();
         // 标识 [0, i) 或 (i, size() - 1] 的乘积
-        vector<int> left (a.size(), 1);
-        vector<int> right (a.size(), 1);
+        vector<int> left(n, 1);
+        vector<int> right(n, 1);
 
         // 左侧前缀乘积数组
-        for (int i = 1; i < a.size(); ++i) {
+        for (int i = 1; i < n; ++i) 
             left[i] = a[i - 1] * left[i - 1];
-        }
-        // 右侧前缀乘积数组
-        for (int i = a.size() - 2; i >= 0; i--) {
-            right[i] = right[i + 1] * a[i + 1];
-        }
-
-        // 结果：res[i] = left[i] * right[i]
-        vector<int> res(a.size());
-        for (int i = 0; i < a.size(); ++i) {
-            res[i] = left[i] * right[i];
-        }
         
+        // 右侧前缀乘积数组
+        for (int i = a.size() - 2; i >= 0; i--) 
+            right[i] = right[i + 1] * a[i + 1];
+        
+        // 结果：res[i] = left[i] * right[i]
+        vector<int> res(n);
+        for (int i = 0; i < n; ++i) 
+            res[i] = left[i] * right[i];
+
         return res;
     }
 };
 
 int main() {
     Solution s;
-    vector<int> a {1, 2, 3, 4, 5};
+    vector<int> a{1, 2, 3, 4, 5};
     vector<int> ret = s.constructArr(a);
-    for(auto e : ret) {
+    for (auto e : ret) {
         std::cout << e << ", ";
     }
 }
