@@ -1,5 +1,5 @@
 /**
- * @brief 
+ * @brief 快速排序
  */
 
 #include <sys/types.h>
