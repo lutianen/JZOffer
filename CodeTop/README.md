@@ -112,6 +112,7 @@
         return pque.top(); 
     }
     ```
+
 5. 三数之和
 
     ```C++
@@ -143,6 +144,7 @@
         return res;
     }
     ```
+
 6. 最大连续子数组和
 
     ```C++
@@ -293,5 +295,65 @@
         }
 
         return s.substr(stIdx, len);
+    }
+    ```
+
+11. 搜索旋转排序数组
+
+    ```C++
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int left = 0, right = n - 1;
+
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            // 恰好找到，直接返回
+            if (nums[mid] == target) return mid;
+
+            // 区间划分
+            if (nums[0] <= nums[mid]) {
+                if (nums[0] <= target && target < nums[mid])
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            } else {
+                if (nums[mid] < target && target <= nums[n - 1])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+        }
+
+        return nums[left] == target ? left : -1;
+    }
+    ```
+
+12. 有效的括号
+
+    ```C++
+    bool isValid(string s) {
+        stack<char> stk;
+        for (const char& c : s) {
+            if (c == '(' || c == '[' || c == '{')
+                stk.push(c);
+            else if (c == ')') {
+                if (stk.empty() || stk.top() != '(')
+                    return false;
+                else
+                    stk.pop();
+            } else if (c == ']') {
+                if (stk.empty() || stk.top() != '[')
+                    return false;
+                else
+                    stk.pop();
+            } else if (c == '}') {
+                if (stk.empty() || stk.top() != '{')
+                    return false;
+                else
+                    stk.pop();
+            }
+        }
+
+        return stk.empty();
     }
     ```
