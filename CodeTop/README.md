@@ -505,3 +505,236 @@
         return res;
     }
     ```
+
+18. 全排列
+
+    ```c++
+    vector<vector<int>> permute2(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return {{nums[0]}};
+        vector<vector<int>> res {};
+        vector<int> path {};
+        unordered_set<int> uset;
+    
+        function<void(int idx)> dfs = [&] (int idx) {
+            if (idx >= n) {
+                res.push_back(path);
+                return;
+            }
+    
+            for (int i = 0; i < n; ++i) {
+                if (uset.find(nums[i]) != uset.end()) continue;
+    
+                uset.insert(nums[i]);
+                path.push_back(nums[i]);
+                dfs(idx + 1);
+                uset.erase(nums[i]);
+                path.pop_back();
+            }
+        }; 
+        dfs(0);
+        return res;
+    }
+    
+    void backTrace (int idx, const vector<int>& nums, int n,
+                    vector<vector<int>>& res, vector<int>& path, 
+                    unordered_set<int>& uset) {
+        if (idx >= n) {
+            res.push_back(path);
+            return;
+        }
+    
+        for (int i = 0; i < n; ++i) {
+            if (uset.find(nums[i]) != uset.end()) continue;
+    
+            uset.insert(nums[i]); 
+            path.push_back(nums[i]);
+            backTrace(idx + 1, nums, n, res, path, uset);
+            path.pop_back();
+            uset.erase(nums[i]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return {{nums[0]}};
+        vector<vector<int>> res {};
+        vector<int> path {};
+        unordered_set<int> uset;
+    
+        backTrace(0, nums, n, res, path, uset);
+        return res;
+    }
+    ```
+
+19. 二叉树的最近公共祖先
+
+    ```c++
+    struct TreeNode {
+        int val;
+        TreeNode *left;
+        TreeNode *right;
+    
+        TreeNode() : val(0), left(nullptr), right(nullptr) {}
+        TreeNode(int v) : val(v), left(nullptr), right(nullptr) {}
+    };
+    TreeNode* lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
+        if (root == nullptr || p == root || q == root) return root;
+    
+        TreeNode *left = lowestCommonAncestor(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor(root->right, p, q);
+    
+        if (left == nullptr && right != nullptr) 
+            return right;
+        if (left != nullptr && right == nullptr)
+            return left;
+    
+        return root;
+    }
+    ```
+
+20. 螺旋矩阵
+
+    ```c++
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if(matrix.empty()) return {};
+    
+        vector<int> ret {}; 
+        int top = 0, bot = matrix.size() - 1, left = 0, right = matrix[0].size() - 1;
+        while(true) {
+            // top
+            for (int i = top, j = left; j <= right;){
+                ret.push_back(matrix[i][j++]);
+                if (j > right) {
+                    top++;
+                    break;
+                }
+            }
+            if (top > bot) break;
+    
+            // right
+            for (int i = top, j = right; i <= bot;) {
+                ret.push_back(matrix[i++][j]);
+                if (i > bot) {
+                    right--;
+                    break;
+                }
+            }
+            if (left > right) break;
+    
+            // bottom
+            for (int i = bot, j = right; j >= left;) {
+                ret.push_back(matrix[i][j--]);
+                if (j < left) {
+                    bot--;
+                    break;
+                }
+            }
+            if (top > bot) break;
+    
+            // left
+            for (int i = bot, j = left; i >= top;) {
+                ret.push_back(matrix[i--][j]);
+                if (i < top) {
+                    left++;
+                    break;
+                }
+            }
+            if (left > right) break;
+        } 
+    
+        return ret;
+    }
+    ```
+
+21. 相交链表
+
+    ```c++
+    struct ListNode {
+        int val;
+        ListNode *next;
+        ListNode(int x) : val(x), next(NULL) {}
+    };
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (headA == nullptr || headB == nullptr) return nullptr;
+    
+        ListNode *cur1 = headA, *cur2 = headB;
+        while(cur1 != cur2) {
+            if (cur1 == nullptr)
+                cur1 = headB;
+            else 
+                cur1 = cur1->next;
+    
+            if (cur2 == nullptr)
+                cur2 = headA;
+            else 
+                cur2 = cur2->next;
+        }
+    
+        return cur1 == nullptr ? nullptr : cur1;
+    }
+    ```
+
+22. 反转链表 II
+
+    ```c++
+    struct ListNode {
+        int val;
+        ListNode *next;
+        ListNode() : val(0), next(nullptr) {}
+        ListNode(int x) : val(x), next(nullptr) {}
+        ListNode(int x, ListNode *next) : val(x), next(next) {}
+    };
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if (nullptr == head || left == right) return head;
+    
+        ListNode *dummy = new ListNode(-1, head), *p0 = dummy;
+        for(int i = 0; i < left - 1; ++i) p0 = p0->next;
+    
+        ListNode *pre = nullptr, *cur = p0->next;
+        for (int i = 0; i < right - left + 1; ++i) {
+            ListNode *nxt = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+    
+        p0->next->next = cur;
+        p0->next = pre;
+    
+        head = dummy->next;
+        delete dummy;
+        dummy = nullptr;
+        return head;
+    }
+    ```
+
+23. 字符串相加
+
+    ```c++
+    string addStrings(string num1, string num2) {
+        int sn1 = num1.size(), sn2 = num2.size();
+        int mn = std::max(sn1, sn2);
+        if (sn1 < mn) {
+            string temp;
+            for (int i = 0; i < mn - sn1; ++i) temp += "0";
+            num1 = temp + num1;
+        } else {
+            string temp;
+            for (int i = 0; i < mn - sn2; ++i) temp += "0";
+            num2 = temp + num2;
+        }
+    
+        int count = 0;
+        string res;
+        for (int i = mn - 1; i >= 0; --i) {
+            char v = count + (num1[i] - '0') + (num2[i] - '0');
+            count = v / 10;
+            res += std::to_string((v % 10));
+        }
+        if (count > 0)
+            res += std::to_string(count);
+    
+        std::reverse(res.begin(), res.end());
+        return res;
+    }
+    ```
