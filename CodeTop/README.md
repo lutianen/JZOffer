@@ -435,3 +435,32 @@
         std::sort(nums1.begin(), nums1.end());
     }
     ```
+
+16. 岛屿数量
+
+    ```c++
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty()) return 0;
+    
+        int cnt = 0;
+        std::function<void (int, int)> dfs = [&] (int x, int y) {
+            if (x < 0 || x >= grid.size() || y < 0 || y >= grid[x].size() || grid[x][y] != '1') 
+                return;
+            grid[x][y] = '*';
+            dfs(x - 1, y);
+            dfs(x + 1, y);
+            dfs(x, y - 1);
+            dfs(x, y + 1);
+        };
+    
+        for (size_t i = 0; i < grid.size(); ++i) {
+            for (size_t j = 0; j < grid[i].size(); ++j) {
+                if (grid[i][j] == '1') {
+                    ++cnt;
+                    dfs(i, j);
+                }
+            }
+        }
+        return cnt;
+    }
+    ```
