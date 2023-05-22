@@ -12,11 +12,11 @@
             while(uset.find(s[right]) != uset.end()) {
                 uset.erase(s[left++]);
             }
-
+    
             uset.insert(s[right]);
             maxLen = max(maxLen, (right++) - left + 1);
         }
-
+    
         return maxLen;
     }
     ```
@@ -26,7 +26,7 @@
     ```c++
     ListNode* reverseList(ListNode* head) {
         if (nullptr == head) return head;
-
+    
         ListNode *pre = nullptr, *cur = head;
         while(cur != nullptr) {
             ListNode *nxt = cur->next;
@@ -34,7 +34,7 @@
             pre = cur;
             cur = nxt;
         }
-
+    
         return pre;
     }
     ```
@@ -45,35 +45,35 @@
     /**
     * @brief LUR 缓存
     */
-
+    
     #include <iostream>
     #include <unordered_map>
     #include <list>
     #include <utility>
-
+    
     using std::pair;
     using std::list;
     using std::unordered_map;
     using std::cout;
     using std::endl;
-
+    
     class LRUCache {
     public:
         LRUCache(int capacity) : capacity_(capacity) {}
-
+    
         int get(int key) {
             if (kv_.find(key) != kv_.end()) {
                 auto kv = *kv_[key];
                 cache_.erase(kv_[key]);
                 cache_.push_front(kv);
                 kv_[key] = cache_.begin();
-
+    
                 return kv.second;
             }
-
+    
             return -1;
         }
-
+    
         void put(int key, int value) {
             if (kv_.find(key) == kv_.end()) {
                 if (cache_.size() == capacity_) {
@@ -83,11 +83,11 @@
             } else {
                 cache_.erase(kv_[key]);
             }
-
+    
             cache_.push_front({key, value});
             kv_[key] = cache_.begin();
         }
-
+    
     private:
         int capacity_;
         list<pair<int, int>> cache_;
@@ -101,14 +101,14 @@
     int findKthLargest(vector<int>& nums, int k) {
         priority_queue<int, vector<int>, std::greater<int>> 
                 pque(nums.begin(), nums.begin() + k);
-
+    
         for (size_t i = k; i < nums.size(); ++i) {
             if (nums[i] > pque.top()) {
                 pque.pop();
                 pque.push(nums[i]);
             }
         }
-
+    
         return pque.top(); 
     }
     ```
@@ -120,7 +120,7 @@
         int n = nums.size();
         if (n < 3) return {};
         sort(nums.begin(), nums.end());
-
+    
         vector<vector<int>> res {};
         for (int i = 0; i < n; ++i) {
             if (nums[i] > 0) break;
@@ -140,7 +140,7 @@
                     --right;
             }
         }
-
+    
         return res;
     }
     ```
@@ -153,7 +153,7 @@
         int n = nums.size();
         if(n <= 0) return -1;
         if(n == 1) return nums[0];
-
+    
         vector<int> d(n);
         d[0] = nums[0];
         int maxv = d[0];
@@ -161,7 +161,7 @@
             d[i] = max(nums[i], d[i - 1] + nums[i]);
             maxv = max(maxv, d[i]);
         }
-
+    
         return maxv;
     }
     ```
@@ -175,31 +175,31 @@
             quickSort(nums, 0, nums.size() - 1);
             return nums;
         }
-
+    
     private:
         void quickSort(vector<int>& nums, int left, int right) {
             if (left >= right) return;
-
+    
             bool sorted = true;
             for (int i = left; i < right; i++) 
                 if (nums[i] > nums[i+1]) sorted = false;
             if (sorted) return;
-
-        std::swap(nums[right], nums[(rand() % (right - left + 1)) + left]);
-        int i = left, j = right - 1;
-        int povit = nums[right];
-
-        while(i < j) {
-            while(i <= j && nums[i] < povit) ++i;
-            while(i <= j && nums[j] > povit) --j;
-            if (i < j)
-                std::swap(nums[i++], nums[j--]);
+    
+            std::swap(nums[right], nums[(rand() % (right - left + 1)) + left]);
+            int i = left, j = right - 1;
+            int povit = nums[right];
+        
+            while(i < j) {
+                while(i <= j && nums[i] < povit) ++i;
+                while(i <= j && nums[j] > povit) --j;
+                if (i < j)
+                    std::swap(nums[i++], nums[j--]);
+            }
+        
+            std::swap(nums[right], nums[i]);
+            quickSort(nums, left, i - 1);
+            quickSort(nums, i + 1, right);
         }
-
-        std::swap(nums[right], nums[i]);
-        quickSort(nums, left, i - 1);
-        quickSort(nums, i + 1, right);
-    }
     };
     ```
 
@@ -209,7 +209,7 @@
         ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         if (nullptr == list1) return list2;        
         if (nullptr == list2) return list1;        
-
+    
         bool flag = list1->val < list2->val ? true : false;
         ListNode *head = nullptr;
         if (flag) {
@@ -219,7 +219,7 @@
             head = list2;
             list2 = list2->next;
         }
-
+    
         ListNode *cur = head;
         while(list1 != nullptr && list2 != nullptr) {
             flag = list1->val < list2->val ? true : false;
@@ -230,12 +230,12 @@
                 cur->next = list2;
                 list2 = list2->next;
             }
-
+    
             cur = cur->next;
         }
         if (list1 == nullptr) cur->next = list2;
         if (list2 == nullptr) cur->next = list1;
-
+    
         return head;
     }
     ```
@@ -246,7 +246,7 @@
     vector<vector<int>> levelOrder(TreeNode* root) {
         if(nullptr == root) return {};
         vector<vector<int>> res;
-
+    
         queue<TreeNode*> que;
         que.push(root);
         while(!que.empty()) {
@@ -256,13 +256,13 @@
                 auto cur = que.front();
                 temp.push_back(cur->val);
                 que.pop();
-
+    
                 if (cur->left != nullptr) que.push(cur->left);
                 if (cur->right != nullptr) que.push(cur->right);
             }
             res.push_back(temp);
         }
-
+    
         return res;
     }
     ```
@@ -272,7 +272,7 @@
     ```C++
     string longestPalindrome(string s) {
         if (s.empty() || s.size() < 2) return s;
-
+    
         // stIdx - 回文串的起始下标
         int n = s.size(), stIdx = 0, len = 1;
         // d[i][j]，表示s[i ... j]是否是回文子串
@@ -293,7 +293,7 @@
                 }
             }
         }
-
+    
         return s.substr(stIdx, len);
     }
     ```
@@ -304,12 +304,12 @@
     int search(vector<int>& nums, int target) {
         int n = nums.size();
         int left = 0, right = n - 1;
-
+    
         while (left < right) {
             int mid = left + ((right - left) >> 1);
             // 恰好找到，直接返回
             if (nums[mid] == target) return mid;
-
+    
             // 区间划分
             if (nums[0] <= nums[mid]) {
                 if (nums[0] <= target && target < nums[mid])
@@ -323,7 +323,7 @@
                     right = mid - 1;
             }
         }
-
+    
         return nums[left] == target ? left : -1;
     }
     ```
@@ -353,7 +353,25 @@
                     stk.pop();
             }
         }
-
+    
         return stk.empty();
     }
+    ```
+
+13. 买卖股票的最佳时机
+
+    ```C++
+    int maxProfit(vector<int>& prices) {
+        if (prices.empty()) return 0;
+    
+        int n = prices.size(), minv = prices[0];
+        vector<int> d(n);
+        d[0] = 0;
+        for (int i = 1; i < n; ++i) {
+            d[i] = max(d[i - 1], prices[i] - minv);
+            minv = min(minv, prices[i]);
+        }
+    
+        return d[n - 1];
+    } 
     ```
