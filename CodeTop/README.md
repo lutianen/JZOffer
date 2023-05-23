@@ -143,6 +143,37 @@
     
         return res;
     }
+
+    // 优化版本：直接使用迭代器
+    vector<vector<int>> threeSum2(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3) return {};
+        sort(nums.begin(), nums.end());
+
+        vector<vector<int>> res;
+        for(auto i = nums.begin(); i != std::prev(nums.end(), 2); ++i) {
+            if (*i > 0) break;
+            if (i > nums.begin() && *i == *(i - 1)) continue;
+
+            auto j = std::next(i);
+            auto k = std::prev(nums.end());
+            while(j < k) {
+                const int sum = *i + *j + *k;
+                if (sum < 0) 
+                    ++j;
+                else if (sum > 0)
+                    --k;
+                else {
+                    res.push_back({*i, *j, *k});
+                    while (j < k && *j == *(j + 1)) j++;
+                    while (j < k && *k == *(k - 1)) k--; 
+                    ++j; --k;    
+                } 
+            }
+        }
+
+        return res;
+    }
     ```
 
 6. 最大连续子数组和
