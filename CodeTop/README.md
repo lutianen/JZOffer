@@ -769,3 +769,88 @@
         return res;
     }
     ```
+
+24. 最长递增子序列
+
+    ```c++
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.empty()) return 0;
+
+        int n = nums.size();
+        // d[i], 表示以 nums[i] 结尾的最长递增子序列长度
+        vector<int> d(n, 1);
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if(nums[j] < nums[i])
+                    d[i] = std::max(d[i], d[j] + 1);
+            }
+        }
+
+        return *std::max_element(d.begin(), d.end());
+    }
+    ```
+
+25. 环形链表 II
+
+    ```c++
+    struct ListNode {
+        int val;
+        ListNode *next;
+
+        ListNode(int v) : val(v), next(nullptr) {}
+    };
+
+    ListNode *detectCycle(ListNode *head) {
+        if (nullptr == head) return head;
+
+        ListNode *fast = head, *slow = head;
+        while(true) {
+            if (fast == nullptr || fast->next == nullptr) return nullptr;
+            fast = fast->next->next;
+            slow = slow->next;
+            if (fast == slow) break;
+        }
+        // Don't exist cycle
+        if (nullptr == fast) return nullptr;
+
+        // Exist Cycle
+        fast = head;
+        while(fast != slow) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return fast;
+    }
+    ```
+
+26. 接雨水
+
+    ```c++
+    int trap(vector<int>& height) {
+        if(height.empty()) return 0;
+        int n = height.size();
+        // perfix[i]，表示比 height[0 ... i] 中最高的，即前缀最大值
+        // suffix[i]，表示比 height[i ... n-1] 中最高的，即后缀最大值
+        vector<int> prefix(n);
+        vector<int> suffix(n);
+
+        // 求解前缀最大值、后缀最大值
+        int temp = INT_MIN;
+        for (int i = 0; i < n; ++i) {
+            temp = std::max(temp, height[i]);
+            prefix[i] = temp; 
+        }
+        temp = INT_MIN; 
+        for (int i = n - 1; i >= 0; --i) {
+            temp = std::max(temp, height[i]);
+            suffix[i] = temp; 
+        }
+
+        // 根据前缀最大值、后缀最大值以及当前柱子高度，求解当前列所能接取的雨水
+        int sum = 0;
+        for (int i = 0; i < n; ++i) 
+            sum += (std::min(prefix[i], suffix[i]) - height[i]);
+        
+        return sum;
+    }
+    ```
