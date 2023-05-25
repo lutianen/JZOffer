@@ -13,10 +13,10 @@ using std::endl;
  */
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
 class Solution {
@@ -25,8 +25,8 @@ public:
         if (nullptr == head) return head;
 
         ListNode *pre = nullptr, *cur = head;
-        while(cur != nullptr) {
-            ListNode *nxt = cur->next;
+        while (cur != nullptr) {
+            ListNode* nxt = cur->next;
             cur->next = pre;
             pre = cur;
             cur = nxt;
@@ -36,6 +36,4 @@ public:
     }
 };
 
-int main () {
-    cout << " .. " << endl;
-}
+int main() { cout << " .. " << endl; }

@@ -4,15 +4,15 @@
  */
 
 #include <iostream>
-#include <unordered_map>
 #include <list>
+#include <unordered_map>
 #include <utility>
 
-using std::pair;
-using std::list;
-using std::unordered_map;
 using std::cout;
 using std::endl;
+using std::list;
+using std::pair;
+using std::unordered_map;
 
 class LRUCache {
 public:
@@ -33,7 +33,7 @@ public:
 
     void put(int key, int value) {
         if (kv_.find(key) == kv_.end()) {
-            if (cache_.size() == capacity_) {
+            if (cache_.size() == static_cast<size_t>(capacity_)) {
                 kv_.erase(cache_.back().first);
                 cache_.pop_back();
             }
@@ -51,9 +51,8 @@ private:
     unordered_map<int, list<pair<int, int>>::iterator> kv_;
 };
 
-
 int main() {
-    LRUCache *lru = new LRUCache(2);
+    LRUCache* lru = new LRUCache(2);
     lru->put(1, 1);
     lru->put(2, 2);
     cout << lru->get(1) << endl;

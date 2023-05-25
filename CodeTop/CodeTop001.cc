@@ -4,11 +4,11 @@
  */
 
 #include <algorithm>
-#include <vector>
-#include <string>
-#include <unordered_set>
 #include <climits>
 #include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
 using namespace std;
 
@@ -19,8 +19,8 @@ public:
         unordered_set<char> uset{};
         int sn = s.size();
         int left = 0, right = 0, maxLen = INT_MIN;
-        while(right < sn) {
-            while(uset.find(s[right]) != uset.end()) {
+        while (right < sn) {
+            while (uset.find(s[right]) != uset.end()) {
                 uset.erase(s[left++]);
             }
 
@@ -32,11 +32,9 @@ public:
     }
 };
 
-int main () {
+int main() {
     string s("abcabcvv");
     Solution so;
     cout << so.lengthOfLongestSubstring(s) << endl;
     return 0;
 }
-
-

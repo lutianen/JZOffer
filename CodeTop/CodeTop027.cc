@@ -3,29 +3,29 @@
  * @link https://leetcode.cn/problems/reorder-list/
  */
 
-#include <iostream>
 #include <deque>
+#include <iostream>
 
 /**
  * Definition for singly-linked list.
  */
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
- 
+
 class Solution {
 public:
     void reorderList(ListNode* head) {
         if (head == nullptr) return;
 
         std::deque<ListNode*> dq;
-        ListNode *cur = head;
+        ListNode* cur = head;
 
-        while(nullptr != cur) {
+        while (nullptr != cur) {
             dq.push_back(cur);
             cur = cur->next;
         }
@@ -33,7 +33,7 @@ public:
         bool flagFront = false;
         cur = dq.front();
         dq.pop_front();
-        while(!dq.empty()) {
+        while (!dq.empty()) {
             if (flagFront) {
                 cur->next = dq.front();
                 dq.pop_front();
@@ -49,7 +49,7 @@ public:
     }
 };
 
-int main () {
+int main() {
     std::cout << " list .. " << std::endl;
     return 0;
 }

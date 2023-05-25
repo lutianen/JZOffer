@@ -7,18 +7,18 @@
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
 
     ListNode(int v) : val(v), next(nullptr) {}
 };
 
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
+    ListNode* detectCycle(ListNode* head) {
         if (nullptr == head) return head;
 
         ListNode *fast = head, *slow = head;
-        while(true) {
+        while (true) {
             if (fast == nullptr || fast->next == nullptr) return nullptr;
             fast = fast->next->next;
             slow = slow->next;
@@ -29,7 +29,7 @@ public:
 
         // Exist Cycle
         fast = head;
-        while(fast != slow) {
+        while (fast != slow) {
             fast = fast->next;
             slow = slow->next;
         }
@@ -37,7 +37,7 @@ public:
     }
 };
 
-int main () {
+int main() {
     std::cout << " list ... " << std::endl;
     return 0;
 }

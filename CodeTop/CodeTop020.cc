@@ -6,20 +6,20 @@
 #include <iostream>
 #include <vector>
 
-using std::vector;
 using std::cout;
 using std::endl;
+using std::vector;
 
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        if(matrix.empty()) return {};
+        if (matrix.empty()) return {};
 
-        vector<int> ret {}; 
+        vector<int> ret{};
         int top = 0, bot = matrix.size() - 1, left = 0, right = matrix[0].size() - 1;
-        while(true) {
+        while (true) {
             // top
-            for (int i = top, j = left; j <= right;){
+            for (int i = top, j = left; j <= right;) {
                 ret.push_back(matrix[i][j++]);
                 if (j > right) {
                     top++;
@@ -57,23 +57,19 @@ public:
                 }
             }
             if (left > right) break;
-       } 
+        }
 
-       return ret;
+        return ret;
     }
 };
 
-int main () {
-    vector<vector<int>> matrix {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}};
+int main() {
+    vector<vector<int>> matrix{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 
     Solution so;
     auto ret = so.spiralOrder(matrix);
-    for (const int e : ret) 
-        cout << e << ", ";
-    
+    for (const int e : ret) cout << e << ", ";
+
     cout << endl;
     return 0;
 }

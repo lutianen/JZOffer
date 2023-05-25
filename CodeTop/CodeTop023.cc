@@ -4,8 +4,8 @@
  */
 
 #include <algorithm>
-#include <string>
 #include <iostream>
+#include <string>
 
 using std::string;
 
@@ -31,15 +31,14 @@ public:
             count = v / 10;
             res += std::to_string((v % 10));
         }
-        if (count > 0)
-            res += std::to_string(count);
+        if (count > 0) res += std::to_string(count);
 
         std::reverse(res.begin(), res.end());
         return res;
     }
 };
 
-int main (){ 
+int main() {
     string num1 = "500", num2 = "9027";
     Solution so;
     std::cout << so.addStrings(num1, num2) << std::endl;

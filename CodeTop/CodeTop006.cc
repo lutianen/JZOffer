@@ -3,22 +3,22 @@
  * @link https://leetcode.cn/problems/maximum-subarray/
  */
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 using std::cout;
 using std::endl;
-using std::vector;
 using std::max;
+using std::vector;
 
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
         // d[i] 表示以 i 为结尾的 nums[i] 的最大连续子数组的和
         int n = nums.size();
-        if(n <= 0) return -1;
-        if(n == 1) return nums[0];
+        if (n <= 0) return -1;
+        if (n == 1) return nums[0];
 
         vector<int> d(n);
         d[0] = nums[0];
@@ -32,7 +32,7 @@ public:
     }
 };
 
-int main () {
+int main() {
     Solution so;
     vector<int> nums{-2, 1, -3, 4, -1, 2, 1, -5, 4};
     cout << so.maxSubArray(nums) << endl;

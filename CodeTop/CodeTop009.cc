@@ -4,33 +4,33 @@
  */
 
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
-using std::queue;
-using std::vector;
 using std::cout;
 using std::endl;
+using std::queue;
+using std::vector;
 
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
 
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int v) : val(v), left(nullptr), right(nullptr) {} 
-    TreeNode(int v, TreeNode *l, TreeNode *r) : val(v), left(l), right(r) {} 
+    TreeNode(int v) : val(v), left(nullptr), right(nullptr) {}
+    TreeNode(int v, TreeNode* l, TreeNode* r) : val(v), left(l), right(r) {}
 };
 
 class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        if(nullptr == root) return {};
+        if (nullptr == root) return {};
         vector<vector<int>> res;
 
         queue<TreeNode*> que;
         que.push(root);
-        while(!que.empty()) {
+        while (!que.empty()) {
             int k = que.size();
             vector<int> temp;
             for (int i = 0; i < k; ++i) {
@@ -48,7 +48,7 @@ public:
     }
 };
 
-int main () {
+int main() {
     cout << " ... " << endl;
     return 0;
 }

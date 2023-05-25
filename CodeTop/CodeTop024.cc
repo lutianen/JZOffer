@@ -19,8 +19,7 @@ public:
         vector<int> d(n, 1);
         for (int i = 1; i < n; ++i) {
             for (int j = 0; j < i; ++j) {
-                if(nums[j] < nums[i])
-                    d[i] = std::max(d[i], d[j] + 1);
+                if (nums[j] < nums[i]) d[i] = std::max(d[i], d[j] + 1);
             }
         }
 
@@ -28,8 +27,8 @@ public:
     }
 };
 
-int main () {
-    vector<int> nums {10, 9, 2, 5, 3, 7, 101, 18};
+int main() {
+    vector<int> nums{10, 9, 2, 5, 3, 7, 101, 18};
     Solution so;
     std::cout << so.lengthOfLIS(nums) << std::endl;
 

@@ -10,10 +10,10 @@
  */
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
 class Solution {
@@ -22,11 +22,11 @@ public:
         if (nullptr == head || left == right) return head;
 
         ListNode *dummy = new ListNode(-1, head), *p0 = dummy;
-        for(int i = 0; i < left - 1; ++i) p0 = p0->next;
+        for (int i = 0; i < left - 1; ++i) p0 = p0->next;
 
         ListNode *pre = nullptr, *cur = p0->next;
         for (int i = 0; i < right - left + 1; ++i) {
-            ListNode *nxt = cur->next;
+            ListNode* nxt = cur->next;
             cur->next = pre;
             pre = cur;
             cur = nxt;
@@ -42,12 +42,12 @@ public:
     }
 };
 
-int main () {
-    ListNode *head = new ListNode(1);
-    ListNode *node2 = new ListNode(2);
-    ListNode *node3 = new ListNode(3);
-    ListNode *node4 = new ListNode(4);
-    ListNode *node5 = new ListNode(5);
+int main() {
+    ListNode* head = new ListNode(1);
+    ListNode* node2 = new ListNode(2);
+    ListNode* node3 = new ListNode(3);
+    ListNode* node4 = new ListNode(4);
+    ListNode* node5 = new ListNode(5);
     head->next = node2;
     node2->next = node3;
     node3->next = node4;
@@ -55,10 +55,9 @@ int main () {
 
     Solution s;
     ListNode* rHead = s.reverseBetween(head, 2, 4);
-    while(rHead != nullptr) {
+    while (rHead != nullptr) {
         std::cout << rHead->val;
-        if (rHead->next != nullptr)
-            std::cout << "->";
+        if (rHead->next != nullptr) std::cout << "->";
         rHead = rHead->next;
     }
     std::cout << std::endl;

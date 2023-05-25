@@ -5,6 +5,6 @@ DerivePointerAlignment: false
 PointerAlignment: Left
 AccessModifierOffset: -4
 FixNamespaceComments: true
-NamespaceIndentation: All
+NamespaceIndentation: Inner
 AlwaysBreakTemplateDeclarations: true
 ColumnLimit: 120

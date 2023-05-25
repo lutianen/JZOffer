@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
-using std::string;
 using std::cout;
 using std::endl;
+using std::string;
 
 class Solution {
 public:
@@ -21,7 +21,7 @@ public:
         // d[i][j]，表示s[i ... j]是否是回文子串
         std::vector<std::vector<bool>> d(n, std::vector<bool>(n));
         d[0][0] = true;
-        
+
         // 动态规划
         for (int r = 1; r < n; ++r) {
             for (int l = 0; l < r; ++l) {
@@ -41,10 +41,10 @@ public:
     }
 };
 
-int main () {
+int main() {
     Solution so;
     string s = "abacc";
     cout << so.longestPalindrome(s) << endl;
-    
+
     return 0;
 }
