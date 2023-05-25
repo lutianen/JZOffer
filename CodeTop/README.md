@@ -895,3 +895,170 @@
         cur->next = nullptr;
     }
     ```
+
+28. 二叉树中的最大路径和
+
+    ```c++
+    struct TreeNode {
+        int val;
+        TreeNode* left;
+        TreeNode* right;
+
+        TreeNode() : val(0), left(nullptr), right(nullptr) {}
+        TreeNode(int v) : val(v), left(nullptr), right(nullptr) {}
+        TreeNode(int v, TreeNode* l, TreeNode* r) : val(v), left(l), right(r) {}
+    };
+
+    class Solution {
+    public:
+        int ret = INT_MIN;
+        int maxPathSum(TreeNode* root) {
+            dfs(root);
+            return ret;
+        }
+
+    private:
+        int dfs(TreeNode* root) {
+            if (nullptr == root) return 0;
+
+            // 左右子树的最大路径和，必须大于零才能加入当前路径
+            int left = std::max(0, dfs(root->left));
+            int right = std::max(0, dfs(root->right));
+
+            // 记录当前路径最值
+            ret = std::max(ret, root->val + left + right);
+            // 选择一条路径和较大的路径
+            return std::max(left, right) + root->val;
+        }
+    };
+    ```
+
+29. 二叉树的中序遍历
+
+    ```c++
+    struct TreeNode {
+        int val;
+        TreeNode* left;
+        TreeNode* right;
+
+        TreeNode() : val(0), left(nullptr), right(nullptr) {}
+        TreeNode(int v) : val(v), left(nullptr), right(nullptr) {}
+        TreeNode(int v, TreeNode* le, TreeNode* ri) : val(v), left(le), right(ri) {}
+    };
+
+    class Solution {
+    public:
+        vector<int> inorderTraversal(TreeNode* root) {
+            vector<int> vec{};
+            inorderTraversal(root, vec);
+            return vec;
+        }
+
+    private:
+        void inorderTraversal(TreeNode* root, vector<int>& vec) {
+            if (root == nullptr) return;
+
+            inorderTraversal(root->left, vec);
+            vec.push_back(root->val);
+            inorderTraversal(root->right, vec);
+        }
+    };
+    ```
+
+30. 用栈实现队列
+
+    ```c++
+    class MyQueue {
+    private:
+        std::stack<int> helper_;
+        std::stack<int> queue_;
+
+    public:
+        MyQueue() : helper_(), queue_() {}
+
+        void push(int x) {
+            if (queue_.empty()) {
+                queue_.push(x);
+            } else {
+                while (!queue_.empty()) {
+                    helper_.push(queue_.top());
+                    queue_.pop();
+                }
+
+                queue_.push(x);
+                while (!helper_.empty()) {
+                    queue_.push(helper_.top());
+                    helper_.pop();
+                }
+            }
+        }
+
+        int pop() {
+            int res = -1;
+            if (!queue_.empty()) {
+                res = queue_.top();
+                queue_.pop();
+            }
+
+            return res;
+        }
+
+        int peek() {
+            if (!queue_.empty()) {
+                return queue_.top();
+            }
+
+            return -1;
+        }
+
+        bool empty() { return queue_.empty(); }
+    };
+    ```
+
+31. 删除链表中倒数第 N 个节点
+
+    ```c++
+    // Definition for singly-linked list.
+    struct ListNode {
+        int val;
+        ListNode* next;
+        ListNode() : val(0), next(nullptr) {}
+        ListNode(int x) : val(x), next(nullptr) {}
+        ListNode(int x, ListNode* next) : val(x), next(next) { std::cout << __FUNCTION__ << std::endl; }
+
+        ~ListNode() { std::cout << __FUNCTION__ << std::endl; }
+    };
+
+    class Solution {
+    public:
+        ListNode* removeNthFromEnd(ListNode* head, int n) {
+            if (head == nullptr) return head;
+
+            int len = 0;
+            ListNode* cur = head;
+            while (cur != nullptr) {
+                cur = cur->next;
+                ++len;
+            }
+
+            // 使用 dummy 节点，防止删除头节点导致异常
+            std::unique_ptr<ListNode> dummy(new ListNode(-1, head));
+            cur = dummy.get();
+            for (int i = 0; i <= len - n; ++i) {
+                if (i == len - n) {
+                    ListNode* toDelNode = cur->next;
+                    cur->next = cur->next->next;
+
+                    delete toDelNode;
+                    toDelNode = nullptr;
+
+                    break;
+                }
+                cur = cur->next;
+            }
+            // 更正头节点
+            head = dummy->next;
+            return head;
+        }
+    };
+    ```

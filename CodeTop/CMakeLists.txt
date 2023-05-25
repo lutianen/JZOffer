@@ -27,4 +27,8 @@ add_executable(CodeTop024 CodeTop024.cc)
 add_executable(CodeTop025 CodeTop025.cc)
 add_executable(CodeTop026 CodeTop026.cc)
 add_executable(CodeTop027 CodeTop027.cc)
+add_executable(CodeTop028 CodeTop028.cc)
+add_executable(CodeTop029 CodeTop029.cc)
+add_executable(CodeTop030 CodeTop030.cc)
+add_executable(CodeTop031 CodeTop031.cc)
 
