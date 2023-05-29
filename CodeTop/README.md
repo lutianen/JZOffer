@@ -1096,3 +1096,24 @@
         return d[n1][n2];
     }
     ```
+
+33. 二分查找
+
+    ```C++
+    int search(vector<int>& nums, int target) {
+        if (nums.empty()) return -1;
+
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int middle = ((right - left) >> 1) + left;
+            if (nums[middle] < target)
+                left = middle + 1;
+            else if (nums[middle] > target)
+                right = middle - 1;
+            else
+                return middle;
+        }
+
+        return -1;
+    }
+    ```
