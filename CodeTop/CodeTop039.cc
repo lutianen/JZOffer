@@ -3,6 +3,7 @@
  * @link https://leetcode.cn/problems/sort-list/
  */
 
+#include <iostream>
 #include <algorithm>
 #include <memory>
 #include <vector>
@@ -83,3 +84,7 @@ private:
         return mergeTowList(l1, l2);
     }
 };
+
+int main () {
+    std::cout << " List " << std::endl;
+}

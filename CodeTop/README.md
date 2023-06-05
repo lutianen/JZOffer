@@ -1280,3 +1280,169 @@
         return d[n];
     }
     ```
+
+39. 排序链表
+
+    ```c++
+    struct ListNode {
+        int val;
+        ListNode* next;
+        ListNode() : val(0), next(nullptr) {}
+        ListNode(int x) : val(x), next(nullptr) {}
+        ListNode(int x, ListNode* next) : val(x), next(next) {}
+    };
+
+    class Solution {
+    public:
+        ListNode* sortList(ListNode* head) {
+            if (head == nullptr) return head;
+
+            vector<ListNode*> vec{};
+            ListNode* cur = head;
+            while (nullptr != cur) {
+                vec.push_back(cur);
+                cur = cur->next;
+            }
+            sort(vec.begin(), vec.end(), [&](ListNode* pa, ListNode* pb) { return pa->val > pb->val; });
+
+            auto iter = vec.begin();
+            head = cur = *iter;
+            for (++iter; iter != vec.end(); ++iter) {
+                cur->next = *iter;
+                cur = cur->next;
+            }
+            cur->next = nullptr;
+
+            return head;
+        }
+
+        ListNode* sortList2(ListNode* head) { return mergeSort(head); }
+
+    private:
+        ListNode* getMiddleNode(ListNode* head) {
+            auto slow = head, fast = head;
+            while (fast->next != nullptr && fast->next->next != nullptr) {
+                slow = slow->next;
+                fast = fast->next->next;
+            }
+            return slow;
+        }
+
+        ListNode* mergeTowList(ListNode* l1, ListNode* l2) {
+            std::unique_ptr<ListNode> dummy(new ListNode());
+            ListNode* cur = dummy.get();
+            while (l1 && l2) {
+                if (l1->val <= l2->val) {
+                    cur->next = l1;
+                    l1 = l1->next;
+                } else {
+                    cur->next = l2;
+                    l2 = l2->next;
+                }
+                cur = cur->next;
+            }
+            cur->next = l1 ? l1 : l2;
+            return dummy->next;
+        }
+
+        ListNode* mergeSort(ListNode* head) {
+            if (!head || !head->next) return head;
+            ListNode* mid = getMiddleNode(head);
+            ListNode* l1 = head;
+            ListNode* l2 = mid->next;
+            mid->next = nullptr;
+            l1 = mergeSort(l1);
+            l2 = mergeSort(l2);
+            return mergeTowList(l1, l2);
+        }
+    };
+
+    ```
+
+40. x 的平方根
+
+    ```c++
+    // 暴力查找
+    // 时间复杂度 O(x*0.5)
+    int mySqrt(int x) {
+        if (x == 1) return 1;
+
+        size_t X = x;
+        int res = 0;
+        for (size_t i = 0; i * i <= X; ++i) {
+            res = i;
+        }
+        return res;
+    }
+
+    // 二分法
+    // 时间复杂度 O(log n)
+    int mySqrt2(int x) {
+        size_t left = 0, right = x;
+        int res = left;
+        while(left <= right) {
+            size_t mid = left + ((right - left) >> 1);
+            if (mid * mid < x) {
+                left = mid + 1;
+                res = mid;
+            } else if (mid * mid > x) {
+                right = mid - 1;
+            } else {
+                res = mid;
+                break;
+            }
+        }
+        return res;
+    }
+    ```
+
+41. 两数相加
+
+    ```c++
+    struct ListNode {
+        int val;
+        ListNode* next;
+
+        ListNode() : val(-1), next(nullptr) {}
+        ListNode(int x) : val(x), next(nullptr) {}
+        ListNode(int x, ListNode* p) : val(x), next(p) {}
+    };
+
+    class Solution {
+    public:
+        ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+            if (l1 == nullptr) return l2;
+            if (l2 == nullptr) return l1;
+
+            int count = 0;
+            ListNode *head = nullptr, *cur = head;
+
+            while (true) {
+                if (l1 == nullptr && l2 == nullptr) break;
+
+                int sum = 0, rem = 0;
+                if (l1 == nullptr)
+                    sum = count + l2->val;
+                else if (l2 == nullptr)
+                    sum = count + l1->val;
+                else
+                    sum = count + l1->val + l2->val;
+
+                count = sum / 10;
+                rem = sum % 10;
+                if (head == nullptr) {
+                    head = new ListNode(rem);
+                    cur = head;
+                } else {
+                    cur->next = new ListNode(rem);
+                    cur = cur->next;
+                }
+                l1 = l1 == nullptr ? nullptr : l1->next;
+                l2 = l2 == nullptr ? nullptr : l2->next;
+            }
+            if (count != 0) cur->next = new ListNode(count);
+
+            return head;
+        }
+    };
+    ```
