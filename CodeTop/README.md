@@ -1589,3 +1589,33 @@
         }
     };
     ```
+
+46. 链表中倒数第k个节点
+
+    ```c++
+    // Definition for singly-linked list.
+    struct ListNode {
+        int val;
+        ListNode* next;
+        ListNode(int x) : val(x), next(nullptr) {}
+    };
+
+    class Solution {
+    public:
+        ListNode* getKthFromEnd(ListNode* head, int k) {
+            if (head == nullptr) return head;
+
+            ListNode* cur = head;
+            int len = 0;
+            while (nullptr != cur) {
+                cur = cur->next;
+                ++len;
+            }
+
+            cur = head;
+            for (int i = 0; i < len - k; ++i) cur = cur->next;
+
+            return cur;
+        }
+    };
+    ```
