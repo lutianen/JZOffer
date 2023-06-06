@@ -1446,3 +1446,41 @@
         }
     };
     ```
+
+42. 括号生成
+
+    ```c++
+    class Solution {
+    public:
+        vector<string> generateParenthesis(int n) {
+            if (n <= 0) return {};
+
+            vector<string> res;
+            string curStr;
+            dfs(curStr, n, n, res);
+            return res;
+        }
+
+    private:
+        void dfs(string& curStr, int left, int right, vector<string>& res) {
+            if (left == 0 && right == 0) {
+                res.push_back(curStr);
+                return;
+            }
+
+            if (left > right) return;
+
+            if (left > 0) {
+                curStr.push_back('(');
+                dfs(curStr, left - 1, right, res);
+                curStr.pop_back();
+            }
+
+            if (right > 0) {
+                curStr.push_back(')');
+                dfs(curStr, left, right - 1, res);
+                curStr.pop_back();
+            }
+        }
+    };
+    ```
