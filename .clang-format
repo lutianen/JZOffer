@@ -7,4 +7,4 @@ AccessModifierOffset: -4
 FixNamespaceComments: true
 NamespaceIndentation: Inner
 AlwaysBreakTemplateDeclarations: true
-ColumnLimit: 120
+ColumnLimit: 80
