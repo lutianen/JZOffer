@@ -1664,3 +1664,40 @@
     };
     ```
 
+48. 最小栈
+
+    ```cpp
+    class MinStack {
+    public:
+        MinStack() {}
+
+        void push(int val) {
+            stk_.push(val);
+            if (hlp_.empty())
+                hlp_.push(val);
+            else
+                hlp_.push(val < hlp_.top() ? val : hlp_.top());
+        }
+
+        void pop() {
+            if (!stk_.empty()) {
+                stk_.pop();
+                hlp_.pop();
+            }
+        }
+
+        int top() {
+            if (!stk_.empty()) return stk_.top();
+            return -1;
+        }
+
+        int getMin() {
+            if (!hlp_.empty()) return hlp_.top();
+            return -1;
+        }
+
+    private:
+        stack<int> stk_;
+        stack<int> hlp_;
+    };
+    ```
