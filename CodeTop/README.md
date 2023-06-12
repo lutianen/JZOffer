@@ -1723,3 +1723,31 @@
         return d[amount] == amount + 1 ? -1 : d[amount];
     }
     ```
+
+50. 子集
+
+    ```cpp
+    vector<vector<int>> subsets(vector<int>& nums) {
+        if (nums.empty()) return {};
+
+        vector<vector<int>> res;
+        vector<int> path;
+
+        // 回溯算法 - dfs
+        std::function<void(int)> dfs = [&](size_t idx) -> void {
+            res.push_back(path);
+            if (idx >= nums.size()) {
+                return;
+            }
+
+            for (size_t i = idx; i < nums.size(); ++i) {
+                path.push_back(nums[i]);
+                dfs(i + 1);
+                path.pop_back();
+            }
+        };
+
+        dfs(0);
+        return res;
+    }
+    ```
