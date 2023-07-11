@@ -1953,3 +1953,24 @@
             return f(root->left, root->right);
         }    
     ```
+
+56. 平衡二叉树
+
+    ```cpp
+    class Solution {
+    public:
+        bool isBalanced(TreeNode* root) {
+            if (nullptr == root) return true;
+
+            return std::abs(getHeight(root->left) - getHeight(root->right)) <= 1 &&
+                isBalanced(root->left) && isBalanced(root->right);
+        }
+
+    private:
+        int getHeight(TreeNode* root) {
+            if (root == nullptr) return 0;
+
+            return std::max(getHeight(root->left), getHeight(root->right)) + 1;
+        }
+    }; 
+    ```
