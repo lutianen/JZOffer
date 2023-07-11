@@ -1935,3 +1935,21 @@
         }
     };
     ```
+
+55. 对称二叉树
+
+    ```cpp
+        bool isSymmetric(TreeNode* root) {
+            if (root == nullptr) return true;
+
+            std::function<bool(TreeNode*, TreeNode*)> f = [&](TreeNode* left,
+                                                            TreeNode* right) {
+                if (left == nullptr && right == nullptr) return true;
+                if (left == nullptr || right == nullptr) return false;
+
+                return left->val == right->val && f(left->left, right->right) &&
+                    f(left->right, right->left);
+            };
+            return f(root->left, root->right);
+        }    
+    ```
