@@ -53,4 +53,5 @@ add_executable(CodeTop050 CodeTop050.cc)
 add_executable(CodeTop051 CodeTop051.cc)
 add_executable(CodeTop052 CodeTop052.cc)
 add_executable(CodeTop053 CodeTop053.cc)
+add_executable(CodeTop054 CodeTop054.cc)
 
