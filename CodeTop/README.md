@@ -1974,3 +1974,13 @@
         }
     }; 
     ```
+
+57. 二叉树的最大深度
+
+    ```cpp
+    int maxDepth(TreeNode* root) {
+        if (nullptr == root) return 0;
+
+        return std::max(maxDepth(root->left), maxDepth(root->right)) + 1;
+    } 
+    ```

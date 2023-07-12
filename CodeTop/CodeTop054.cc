@@ -1,11 +1,11 @@
 /**
- *
  * @file CodeTop054.cc
- * @author Tianen Lu (tianenlu957@gmail.com)
+ * 
  * @brief 二叉树的前序遍历
- *
- * @copyright Copyright (c) 2023 XXX
- * For study and research only, no reprinting
+ * 
+ * @author Tian-en Lu >> https://github.com/lutianen
+ * @copyright Copyright (c) 2023
+ * For study and research only
  */
 
 #include <functional>

@@ -1,11 +1,11 @@
 /**
- *
  * @file CodeTop055.cc
- * @author Tianen Lu (tianenlu957@gmail.com)
+ * 
  * @brief 对称二叉树
- *
- * @copyright Copyright (c) 2023 XXX
- * For study and research only, no reprinting
+ * 
+ * @author Tian-en Lu >> https://github.com/lutianen
+ * @copyright Copyright (c) 2023
+ * For study and research only
  */
 
 #include <functional>

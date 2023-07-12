@@ -1,13 +1,13 @@
 /**
- *
  * @file CodeTop056.cc
- * @author Tianen Lu (tianenlu957@gmail.com)
+ *
  * @brief 平衡二叉树
  *      给定一个二叉树，判断它是否为高度平衡的二叉树。
  *      即一个二叉树的每个节点的左右两子树的高度差的绝对值不超过 1
  *
- * @copyright Copyright (c) 2023 XXX
- * For study and research only, no reprinting
+ * @author Tian-en Lu >> https://github.com/lutianen
+ * @copyright Copyright (c) 2023
+ * For study and research only
  */
 
 #include <algorithm>
