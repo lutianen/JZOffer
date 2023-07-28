@@ -1,6 +1,8 @@
 # [CodeTop](https://codetop.cc)
 
-1. 无重复字符的最长子串
+1. [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters)
+
+    给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度
 
     ``` c++
     int lengthOfLongestSubstring(string s) {
@@ -1992,37 +1994,37 @@
     public:
         int sumNumbers(TreeNode* root) {
             if (root == nullptr) return 0;
-
+    
             vector<vector<int>> nums;
             vector<int> path;
-
+    
             getNumbers(root, path, nums);
             auto temp = getInteger(nums);
-
+    
             int ret = 0;
             while (!temp.empty()) {
                 ret += temp.back();
                 temp.pop_back();
             }
-
+    
             return ret;
         }
-
+    
     private:
         void getNumbers(TreeNode* root, vector<int>& path,
                         vector<vector<int>>& nums) {
             if (root == nullptr) return;
             path.push_back(root->val);
-
+    
             if (root->left == nullptr && root->right == nullptr) {
                 nums.push_back(path);
             }
-
+    
             getNumbers(root->left, path, nums);
             getNumbers(root->right, path, nums);
             path.pop_back();
         }
-
+    
         vector<int> getInteger(vector<vector<int>>& nums) {
             vector<int> ret;
             for (vector<int> path : nums) {
