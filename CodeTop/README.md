@@ -2,7 +2,7 @@
 
 1. [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters)
 
-    给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度
+    > 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度
 
     ``` c++
     int lengthOfLongestSubstring(string s) {
@@ -23,21 +23,23 @@
     }
     ```
 
-2. 反转链表
+2. [反转链表](https://leetcode.cn/problems/reverse-linked-list/)
+
+    > 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表
 
     ```c++
     ListNode* reverseList(ListNode* head) {
         if (nullptr == head) return head;
     
-        ListNode *pre = nullptr, *cur = head;
+        ListNode *prev = nullptr, *cur = head;
         while(cur != nullptr) {
             ListNode *nxt = cur->next;
-            cur->next = pre;
-            pre = cur;
+            cur->next = prev;
+            prev = cur;
             cur = nxt;
         }
     
-        return pre;
+        return prev;
     }
     ```
 
