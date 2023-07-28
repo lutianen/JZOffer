@@ -1,6 +1,13 @@
 /**
- * @brief 数组中的第K个最大元素
+ * @file CodeTop004.cc
+ *
+ * @brief 数组中的第 K 个最大元素
+ *  给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素
  * @link https://leetcode.cn/problems/kth-largest-element-in-an-array
+ *
+ * @author https://github.com/lutianen
+ * @copyright Copyright (c) 2023
+ *  FOR STUDY AND RESEARCH SUPPORT ONLY
  */
 
 #include <cstddef>
@@ -21,7 +28,8 @@ public:
         // for (int i = 0; i < k; ++i)
         //     pque.push(nums[i]);
 
-        priority_queue<int, vector<int>, std::greater<int>> pque(nums.begin(), nums.begin() + k);
+        priority_queue<int, vector<int>, std::greater<int>> pque(
+            nums.begin(), nums.begin() + k);
 
         for (size_t i = k; i < nums.size(); ++i) {
             if (nums[i] > pque.top()) {
