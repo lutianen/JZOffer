@@ -1,6 +1,15 @@
 /**
+ * @file CodeTop005.cc
+ *
  * @brief 三数之和
+ *  给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]]
+ *  满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0
+ *  返回所有和为 0 且不重复的三元组
  * @link https://leetcode.cn/problems/3sum/
+ *
+ * @author https://github.com/lutianen
+ * @copyright Copyright (c) 2023
+ *  FOR STUDY AND RESEARCH SUPPORT ONLY
  */
 
 #include <algorithm>
@@ -51,7 +60,8 @@ public:
                     vector<int> temp{nums[i], nums[left], nums[right]};
                     res.emplace_back(temp);
                     while (left < right && nums[left] == nums[left + 1]) left++;
-                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    while (left < right && nums[right] == nums[right - 1])
+                        right--;
                     left++;
                     right--;
                 } else if (sum < 0)
