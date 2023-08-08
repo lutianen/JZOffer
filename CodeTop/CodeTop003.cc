@@ -1,5 +1,5 @@
 /**
- * @brief LUR 缓存
+ * @brief LRU 缓存
  * @link https://leetcode.cn/problems/lru-cache
  */
 
@@ -47,7 +47,9 @@ public:
 
 private:
     int capacity_;
+    //        key, val
     list<pair<int, int>> cache_;
+    //            key  iter
     unordered_map<int, list<pair<int, int>>::iterator> kv_;
 };
 
