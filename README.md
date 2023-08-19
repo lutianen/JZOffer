@@ -70,7 +70,61 @@
     std::cout << "u = " << u << ", v = " << v << ", w = " << w << std::endl; // u = 12, v = 34, w = 23
     ```
 
-7. List
+7. 正则表达式
+
+    ```cpp
+    #include <algorithm>
+    #include <iostream>
+    #include <regex>
+    #include <sstream>
+    #include <string>
+    using namespace std;
+
+    int main() {
+        std::cout << __FUNCTION__ << std::endl;
+
+        // 目标串
+        string str = "nums1=[12,23,4,9],nums2=[1,2,3],k=12";
+        // 匹配模式
+        regex r("(nums1=\\[)([0-9,]+)(\\],nums2=\\[)([0-9,]+)(\\],k=)(\\d+)");
+
+        // 匹配结果
+        string s1, s2;
+        int k;
+
+        for (sregex_iterator it(str.begin(), str.end(), r), end; it != end; ++it) {
+            smatch match = *it;
+            // for (size_t i = 0; i < match.size(); ++i) {
+            //     cout << "i = " << i << ": " << match[i] << endl;
+            // }
+            // cout << match[2] << endl;
+            s1 = match[2];
+            // cout << match[4] << endl;
+            s2 = match[4];
+            // cout << match[6] << endl;
+            k = stoi(match[6]);
+        }
+
+        // 根据 ',' 分割字符
+        istringstream iss1(s1);
+        istringstream iss2(s2);
+        vector<int> nums1, nums2;
+        string temp;
+        while (getline(iss1, temp, ',')) nums1.push_back(stoi(temp));
+        while (getline(iss2, temp, ',')) nums2.push_back(stoi(temp));
+
+        // 验证结果
+        for (const auto& num : nums1) cout << num << ", ";
+        cout << endl;
+        for (const auto& num : nums2) cout << num << ", ";
+        cout << endl;
+        cout << k << "\n";
+
+        return 0;
+    }
+    ```
+
+8. List
 
     ```cpp
     /**
@@ -309,7 +363,7 @@
 
     ```
 
-8. 滑动窗口
+9. 滑动窗口
 
     **==window[left, right) = nums[left, ..., right)，属于左闭右开的区间==**]
 
@@ -445,7 +499,7 @@
 
     [无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 
-9. Graph
+10. Graph
 
     [图的遍历](https://leetcode.cn/problems/all-paths-from-source-to-target/)
 
@@ -664,7 +718,7 @@
 
     对于加权图的场景，我们需要优先级队列「自动排序」的特性，将路径权重较小的节点排在队列前面，以此为基础施展 BFS 算法，也就变成了 Dijkstra 算法
 
-10. 单调队列
+11. 单调队列
 
     [滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/)
 
@@ -707,7 +761,7 @@
     }
     ```
 
-11. 单调栈
+12. 单调栈
 
     ```cpp
     vector<int> nextGreaterElement(vector<int>& nums) {
@@ -730,7 +784,7 @@
     }
     ```
 
-12. 环形数组
+13. 环形数组
 
     - **通过 `%` 运算符求模（余数），来模拟环形特效**
     - **数组长度翻倍**
@@ -756,7 +810,7 @@
     }
     ```
 
-13. 回溯
+14. 回溯
 
     - 组合问题：N个数里面按一定规则找出k个数的集合
     - 切割问题：一个字符串按一定规则有几种切割方式
@@ -793,7 +847,7 @@
     }
     ```
 
-14. 动态规划
+15. 动态规划
 
     **==动态规划问题的一般形式就是求最值==, 重叠子问题、最优子结构、状态转移方程就是动态规划三要素**
 
@@ -1011,7 +1065,7 @@
     }
     ```
 
-15. 贪心
+16. 贪心
     [无重叠区间](https://leetcode.cn/problems/non-overlapping-intervals/)
 
     **动态规划**
