@@ -467,7 +467,7 @@
     }
     ```
 
-    [找到字符串中所有字母异味词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
+    [找到字符串中所有字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/)
 
     ```cpp
     vector<int> findAnagrams(string s, string p) {
