@@ -373,7 +373,34 @@
 
     - 什么时候窗口应该暂停扩大，开始移动 left 缩小窗口？从窗口移出字符时，应该更新哪些数据？
 
-    - 我们要的结果应该在扩大窗口时还是缩小窗口时进行更新？
+    - 我们要的结果应该在扩大窗口时还是缩小窗口时进行更新
+
+    [字符串中使相邻字符不相等的最少替换次数](https://www.geeksforgeeks.org/minimum-replacements-in-a-string-to-make-adjacent-characters-unequal/)
+
+    ```cpp
+    /**
+     * @brief 统计使得字符串中相邻字符不同的最小操作次数
+     *  思路：找到所有字符都相同的非重叠字符串，结果就是将每个子串长度一般的向取整之和
+     * @param[in] str 待统计字符串
+     * @return 最小操作次数
+     */
+    size_t countMinimun(const string& str) {
+        int cnt = 0;  // 操作次数
+
+        size_t i = 0;
+        while (i < str.size()) {
+            size_t j = i;
+            // 查找相同字符构成的子串
+            while (str[j] == str[i] && j < str.size()) ++j;
+
+            // 相同字符子串的长度
+            size_t diff = j - i;
+            cnt += diff / 2;
+            i = j;
+        }
+        return cnt;
+    }
+    ```
 
     ```cpp
         // 模板
