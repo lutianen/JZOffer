@@ -1176,3 +1176,49 @@
         return cnt;
     }
     ```
+
+    [跳跃游戏](https://leetcode.cn/problems/jump-game/)
+
+    ```cpp
+    bool canJump(vector<int>& nums) {
+        if (nums.empty()) return true;
+
+        size_t cover = 0;
+        for (size_t i = 0; i <= cover; ++i) {
+            cover = max(cover, nums[i] + i);
+            if (cover >= nums.size() - 1) return true;
+        }
+
+        return false;
+    }
+    ```
+
+    [视频拼接](https://leetcode.cn/problems/video-stitching/)
+
+    ```cpp
+    int videoStitching(vector<vector<int>>& clips, int time) {
+        if (time <= 0) return -1;
+
+        // 起点排序，起点相同时按右端点降序排序
+        sort(clips.begin(), clips.end(), [](vector<int>& u, vector<int>& v) {
+            return u[0] == v[0] ? u[1] < v[1] : u[0] < v[0];
+        });
+
+        // currEnd, nextEnd, Count
+        int ced = 0, ned = 0, cnt = 0;
+        size_t i = 0;
+        while (i < clips.size() && clips[i][0] <= ced) {
+            // 当 多个下一区间左端点 位于 当前区间右端点 内部时，找到最大的右端点
+            while (i < clips.size() && clips[i][0] <= ced) {
+                ned = max(ned, clips[i][1]);
+                ++i;
+            }
+            ced = ned;
+            ++cnt;
+
+            // 类似于跳跃游戏，已经能够满足要求，跳出循环
+            if (ced >= time) return cnt;
+        }
+        return -1;
+    }
+    ```
