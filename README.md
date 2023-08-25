@@ -1222,3 +1222,44 @@
         return -1;
     }
     ```
+
+17. 多线程
+
+    **`n` 个线程交替打印本线程 ID（0～n-1），重复打印 `m` 次**
+
+    ```cpp
+    #include <atomic>
+    #include <iostream>
+    #include <thread>
+    #include <vector>
+    using namespace std;
+
+    atomic_int g_cnt{0};
+    atomic_int g_m{0};
+    vector<thread> g_threads;
+
+    int main() {
+        int n = 4;
+        int m = 2;
+        g_m.store(m);
+
+        for (int i = 0; i < n; ++i)
+            g_threads.push_back(thread(
+                [](int threadId) {
+                    while (g_m.load() > 0) {
+                        if (g_cnt.load() == threadId) {
+                            cout << threadId << endl;
+                            g_cnt.fetch_add(1);
+                            if (g_cnt.load() == 4) {
+                                g_m.fetch_sub(1);
+                                g_cnt = 0;
+                            }
+                        }
+                    }
+                },
+                i));
+
+        for (auto& t : g_threads) t.join();
+        return 0;
+    }
+    ```
