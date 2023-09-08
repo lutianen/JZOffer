@@ -1225,6 +1225,77 @@
 
 17. 多线程
 
+    **线程创建与销毁耗时对比: \<thread> vs <pthread.h>**
+
+    ```cpp
+    // C++ 标准库中的 thread 库
+    #include <benchmark/benchmark.h>
+    #include <thread>
+
+    void BM_for(benchmark::State& bm) {
+        for (auto _:bm) {
+            std::thread t1([](){
+            });
+            t1.join();
+        }
+    }
+    BENCHMARK(BM_for);
+    BENCHMARK_MAIN();
+
+    /*
+        2023-09-08T14:40:17+08:00
+        Run on (16 X 4600 MHz CPU s)
+        CPU Caches:
+        L1 Data 48 KiB (x8)
+        L1 Instruction 32 KiB (x8)
+        L2 Unified 1280 KiB (x8)
+        L3 Unified 24576 KiB (x1)
+        Load Average: 3.26, 2.91, 2.36
+        ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+        -----------------------------------------------------
+        Benchmark           Time             CPU   Iterations
+        -----------------------------------------------------
+        BM_for          14138 ns         8664 ns        71463
+    */
+
+    ```
+
+    ```cpp
+    // Linux 中的 pthread 库
+    #include <benchmark/benchmark.h>
+    #include <pthread.h>
+
+    void* threadFunc (void*) { return nullptr; }
+
+    void BM_for(benchmark::State& bm) {
+        for (auto _:bm) {
+            pthread_t pid;
+            pthread_create(&pid, nullptr,
+                threadFunc, nullptr);
+
+            pthread_join(pid, nullptr);
+        }
+    }
+    BENCHMARK(BM_for);
+    BENCHMARK_MAIN();
+
+    /*
+        2023-09-08T14:45:26+08:00
+        Run on (16 X 4600 MHz CPU s)
+        CPU Caches:
+        L1 Data 48 KiB (x8)
+        L1 Instruction 32 KiB (x8)
+        L2 Unified 1280 KiB (x8)
+        L3 Unified 24576 KiB (x1)
+        Load Average: 2.63, 2.55, 2.34
+        ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+        -----------------------------------------------------
+        Benchmark           Time             CPU   Iterations
+        -----------------------------------------------------
+        BM_for          13346 ns         8402 ns        72869
+    */
+    ```
+
     **`n` 个线程交替打印本线程 ID（0～n-1），重复打印 `m` 次**
 
     ```cpp
