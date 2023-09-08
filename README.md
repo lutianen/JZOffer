@@ -1263,3 +1263,70 @@
         return 0;
     }
     ```
+
+18. 智能指针
+
+    **unique_ptr**
+
+    底层是一个`tuple`，存储的是`指针`和对应的`Deleter`
+
+    ![unique_ptr](./images/smart_pointer.svg)
+
+    **shared_ptr**
+
+    底层是两根指针，一根指向资源，一根指向原子变量的引用计数；
+
+    ```cpp
+    // STL
+    void deleterFunc(char* p) { delete p; }
+    int main() {
+    auto deleterLambda = [](char* p) { delete p; };
+    std::unique_ptr<char, decltype(deleterLambda)> p_ch_1(new char,
+                                                            deleterLambda);
+    std::unique_ptr<char, decltype(&deleterFunc)> p_ch_2(new char, &deleterFunc);
+
+    std::cout << sizeof(&deleterFunc) << ", " << sizeof(deleterLambda) << ", "
+                << sizeof(p_ch_1) << ", " << sizeof(p_ch_2) << std::endl;
+    }
+
+    // Lute
+    namespace Lute {
+    template <typename T>
+    class unique_ptr {
+        pointer ptr_;
+
+    public:
+        using pointer = T*;
+
+        explicit unique_ptr(pointer ptr = nullptr) : ptr_(ptr) {}
+
+        unique_ptr(const unique_ptr&) = delete;
+        unique_ptr& operator=(const unique_ptr&) = delete;
+
+        unique_ptr(unique_ptr&& ptr) noexcept { ptr_ = ptr.release(); }
+        unique_ptr& operator=(unique_ptr&& ptr) noexcept {
+            reset(ptr.release());
+            return *this;
+        }
+
+        ~unique_ptr() { delete ptr_; }
+
+        void reset(pointer p = nullptr) {
+            auto saved_ptr = ptr_;
+            ptr_ = p;
+            delete saved_ptr;
+        }
+        pointer release() {
+            auto p = ptr_;
+            ptr_ = nullptr;
+            return p;
+        }
+        pointer get() const { return ptr_; }
+
+        T& operator*() const { return *ptr_; }
+        pointer operator->() const { return ptr_; }
+
+        explicit operator bool() const { return ptr_; }
+    };
+    }  // namespace Lute
+    ```
