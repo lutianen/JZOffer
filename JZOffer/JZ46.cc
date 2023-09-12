@@ -35,7 +35,7 @@ public:
         // dp[i] = dp[i - 1] or dp[i - 1] + dp[i - 2]
         for (int i = 2; i <= numStr.size(); ++i) {
             if (numStr[i - 2] == '1' ||
-                numStr[i - 2] == '2' && numStr[i - 1] <= '5')
+                (numStr[i - 2] == '2' && numStr[i - 1] <= '5'))
                 dp[i] = dp[i - 2] + dp[i - 1];
             else
                 dp[i] = dp[i - 1];

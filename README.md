@@ -1225,6 +1225,42 @@
 
 17. 多线程
 
+    **std::async**
+
+    `std::async` 接受一个带返回值的 Lambda，自身返回一个 `std::future` 对象； Labmda 可返回 `void`，此时 future 对象类型为 `std::future<void>`;
+
+    Labmda 的函数体在*另一个线程*里执行；
+
+    最后调用 `future` 的 `get()` 函数，如果此时 Lambda 还未执行完成，则会**等待**，并获取其返回值；
+
+    **`std::future` 删除了拷贝构造、拷贝赋值函数** -->> 如果需要浅拷贝，实现共享共一个 `future` 对象，可用  `std::shared_future`
+
+    ```cpp
+    #include <chrono>
+    #include <future>
+    #include <iostream>
+    #include <thread>
+    using namespace std;
+
+    void download(const string& str) {
+        for (size_t i = 0; i <= 10; ++i) {
+            printf("%s downloading .. %zu \% \r\n", str.c_str(), i * 10);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+
+    int main() {
+        std::future<int> frc = std::async([&]() {
+            download("Lute.tar.gz");
+            return 12;
+        });
+        int rc = frc.get();
+        std::cout << "frc = " << rc << std::endl;
+
+        return 0;
+    }
+    ```
+
     **线程创建与销毁耗时对比: \<thread> vs <pthread.h>**
 
     ```cpp
@@ -1256,8 +1292,9 @@
         Benchmark           Time             CPU   Iterations
         -----------------------------------------------------
         BM_for          14138 ns         8664 ns        71463
-    */
 
+        14138 ns -->> 14.138 us
+    */
     ```
 
     ```cpp
@@ -1293,6 +1330,8 @@
         Benchmark           Time             CPU   Iterations
         -----------------------------------------------------
         BM_for          13346 ns         8402 ns        72869
+
+        13346 ns -->> 13.346 us
     */
     ```
 

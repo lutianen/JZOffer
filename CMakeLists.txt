@@ -13,7 +13,7 @@ set(CMAKE_BUILD_PARALLEL_LEVEL 16)
 set(CMAKE_CXX_FLAGS "-Wall")
 
 add_subdirectory(JZOffer)
-add_subdirectory(LQ)
+# add_subdirectory(LQ)
 add_subdirectory(Utils)
-add_subdirectory(Exams)
+# add_subdirectory(Exams)
 
