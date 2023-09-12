@@ -1261,6 +1261,173 @@
     }
     ```
 
+    **std::mutex**
+
+    互斥量，防止多个线程同时进入某一段代码 `lock()` `unlock()`;
+
+    `std::lock_guard` 符合 RAII 思想的上锁和解锁：`std::lock_guard lock(mtx);`，在构造函数中调用 `mtx.lock()` ，析构函数中调用 `mtx.unlock()`，在离开作用域时自动解锁；**`std::lock_guard` 无非是调用其构造参数为 `lock()` 的成员函数，因此 `std::unique_lock()` 也可以作为 `std::lock_guard` 的构造参数**
+
+    ```cpp
+    mutex mtx;
+    unique_lock<mutex> u_lock(mtx);
+    lock_guard<unique_lock> lock(u_lock);
+    ```
+
+    `std::unique_lock`，不仅符合 RAII 思想，而且自由度更高(可以提前释放 `mtx.unlock()`)：`std::unique_lock lock(mtx);` 在析构时调用会检测额外的 flag（标志 `mtx` 是否已释放），然后决定是否调用 `mtx.unlock()`；
+
+    **`std::unique_lock` 具有 `mutex` 的所有成员函数：`lock()`, `try_lock()`, `try_lock_for()` 等，且还会在析构时自动调用 `unlock()`；**
+
+    **只要具有某些指定名字的成员函数，就判断一个类是否满足某些功能的思想，在 Python 称为鸭子类型，而 C++ 中称为 concept（概念）**，比起虚函数和动态多态的接口抽象， concept 使实现和接口更加解耦且没有性能损失；
+
+    > **死锁难题**：同时锁住多个 `mutex`
+    >
+    > 由于同时执行的两个线程，他们中发生的指令不一定是同步的，可能会出现==双方都在等着对方释放锁，但因等待而无法释放锁，从而要无限等待下去==，该现象称为**死锁 dead-lock**
+    >
+    > **同一线程重复调用 `lock()` 也会造成死锁**
+    >
+    > 解决方案：
+    >
+    > 1. **永远不要同时持有两个锁**：多个锁分别上锁，可以避免死锁
+    >
+    > ```cpp
+    > std::thread t1([&](){
+    >   ...
+    >   mtx1.lock();
+    >   mtx1.unlock();
+    >   mtx2.lock();
+    >   mtx2.unlock();
+    >   ...
+    > });
+    >
+    > std::thread t2([&](){
+    >   ...
+    >   mtx1.lock();
+    >   mtx1.unlock();
+    >   mtx2.lock();
+    >   mtx2.unlock();
+    >   ...
+    > });
+    > ```
+    >
+    > 2. **保证上锁顺序一致**：只需要保证多个线程中的上锁顺序一致，即可避免死锁
+    >
+    > ```cpp
+    > std::thread t1([&](){
+    >   ...
+    >   mtx1.lock();
+    >   mtx2.lock();
+    >   mtx1.unlock();
+    >   mtx2.unlock();
+    >   ...
+    > });
+    >
+    > std::thread t2([&](){
+    >   ...
+    >   mtx1.lock();
+    >   mtx2.lock();
+    >   mtx1.unlock();
+    >   mtx2.unlock();
+    >   ...
+    > });
+    > ```
+    >
+    > 3. **使用 `std::lock` 同时对多个 `mutex` 上锁**: `std::lock(mtx1, mtx2, ...)` 接受任意多个 `mutex` 作为参数，保证无论在任意线程中调用的顺序是否相同，都不会产生死锁；
+    >
+    >       `std::scoped_lock grd(mtx1, mtx2)` 是 `std::lock` 的 RAII 版本;
+    >
+    > ```cpp
+    > std::thread t1([&](){
+    >   ...
+    >   std::lock(mtx1, mtx2);
+    >   mtx1.unlock();
+    >   mtx2.unlock();
+    >   ...
+    > });
+    >
+    > std::thread t2([&](){
+    >   ...
+    >   std::lock(mtx2, mtx1);
+    >   mtx2.unlock();
+    >   mtx1.unlock();
+    >   ...
+    > });
+    > ```
+    >
+
+    **条件变量 `std::condition_variable`**，必须和 `std::unique_lock<std::mutex>` 一起使用；
+
+    - `cv.wait(lck)` 将会让当前线程陷入等待，该函数还可以额外指定一个参数 `cv.wait(lck, expr)`，其中 `expr` 是一个 Lambda 表达式，只有其返回值为 `true` 时才会真正唤醒，否则继续等待；
+    - `cv.notify_one()`，唤醒某个陷入等待的线程
+    - `cv.nodity_all()`，唤醒所有陷入等待的线程
+
+    **生产者-消费者模式**
+
+    ```cpp
+    template <typename T>
+    class MTQueue {
+    public:
+        void push(T val) {
+            std::unique_lock<std::mutex> lock(mtx_);
+            vec_.push_back(std::move(val));
+            cv_.notify_one();
+        }
+
+        void pushMany(std::initializer_list<T> vals) {
+            std::unique_lock<std::mutex> lock(mtx_);
+            std::copy(std::move_iterator<decltype(vals.begin())>(vals.begin()),
+                    std::move_iterator<decltype(vals.end())>(vals.end()),
+                    std::back_insert_iterator<std::vector<T>>(vec_));
+            cv_.notify_all();
+        }
+
+        T pop() {
+            std::unique_lock<std::mutex> lock(mtx_);
+            cv_.wait(lock, [this]() { return !vec_.empty(); });
+            T temp = std::move(vec_.back());
+            vec_.pop_back();
+            return temp;
+        }
+
+        std::pair<T, std::mutex> popHold() {
+            std::unique_lock<std::mutex> lock(mtx_);
+            cv_.wait(lock, [this]() { return !vec_.empty(); });
+            T ret = std::move(vec_.back());
+            vec_.pop_back();
+            return std::pair<T, std::mutex>(std::move(ret), std::move(lock));
+        }
+
+    private:
+        std::condition_variable cv_;
+        std::mutex mtx_;
+        std::vector<T> vec_;
+    };
+
+    int main() {
+        MTQueue<int> foods;
+        std::thread t1([&]() {
+            for (int i = 0; i < 2; ++i) {
+                auto food = foods.pop();
+                std::cout << food << std::endl;
+            }
+        });
+
+        std::thread t2([&]() {
+            for (int i = 0; i < 2; ++i) {
+                auto food = foods.pop();
+                std::cout << food << std::endl;
+            }
+        });
+
+        foods.push(12);
+        foods.push(13);
+        foods.pushMany({14, 15});
+
+        t1.join();
+        t2.join();
+        return 0;
+    }
+    ```
+
     **线程创建与销毁耗时对比: \<thread> vs <pthread.h>**
 
     ```cpp
