@@ -22,7 +22,7 @@ ThreadPool g_thread_pool;
 void download(const std::string& str) {
     for (size_t i = 0; i <= 10; ++i) {
         printf("%s downloading .. %zu \% \r\n", str.c_str(), i * 10);
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 
@@ -94,14 +94,14 @@ int main() {
         std::vector<int> arr;
         std::mutex mtx;
         std::thread t1([&]() {
-            for (int i = 0; i < 1000; ++i) {
+            for (int i = 0; i < 10; ++i) {
                 std::unique_lock<std::mutex> lock(mtx);
                 arr.push_back(1);
             }
         });
 
         std::thread t2([&]() {
-            for (int i = 0; i < 1000; ++i) {
+            for (int i = 0; i < 10; ++i) {
                 std::unique_lock<std::mutex> u_lock(mtx);
                 // std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
 
@@ -144,6 +144,20 @@ int main() {
 
         t1.join();
         t2.join();
+    }
+
+    {
+        int a = 1;
+        std::thread t1(
+            [](int& a) {
+                std::cout << a << std::endl;
+                a++;
+                std::cout << a << std::endl;
+            },
+            std::ref(a));
+
+        t1.join();
+        std::cout << a << std::endl;
     }
 
     return 0;
